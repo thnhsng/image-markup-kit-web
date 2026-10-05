@@ -45,6 +45,7 @@ export default defineConfig({
         'src/geometry/**',
         'src/text/**',
         'src/render/export-planner.ts',
+        'src/editor/**',
       ],
       thresholds: { lines: 95, statements: 93, functions: 95, branches: 85 },
     },

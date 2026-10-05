@@ -128,3 +128,4 @@ export {
 // Editor
 export type { MarkupEditorProps } from './react/MarkupEditor';
 export { MarkupEditor } from './react/MarkupEditor';
+export type { MarkupDebugGesture } from './editor/debug';

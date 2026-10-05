@@ -68,6 +68,7 @@ import type {
   MarkupEditorProps,
   MarkupErrorCode,
   MarkupFeature,
+  MarkupDebugGesture,
   MarkupFeatureGroup,
   MarkupItem,
   MarkupTool,
@@ -133,6 +134,10 @@ const feature: MarkupFeature = MARKUP_FEATURES[0] ?? 'pen';
 const group: MarkupFeatureGroup = 'board';
 const features: MarkupFeatures = MarkupFeatures.fromJSON('{ "board": { "enabled": false } }').with(feature, false);
 const allowed: boolean = features.allows(tool) && features.isGroupEnabled(group);
+const gestures: MarkupDebugGesture[] = [
+  { type: 'taps', tool: 'polyline', points: [{ x: 0, y: 0 }, { x: 9, y: 0 }] },
+  { type: 'insertLineVertex', itemIndex: 1, segment: 0, by: { x: 0, y: 5 } },
+];
 
 function describeError(error: unknown): string {
   if (isMarkupError(error)) {
@@ -145,4 +150,4 @@ function describeError(error: unknown): string {
 
 const props: MarkupEditorProps = { className: 'editor', style: { width: 100 } };
 export const element = <MarkupEditor {...props} />;
-export { version, color, quantized, palette, font, json, same, shape, allowed, describeError, features, connector, plan, layout, css, exportFlow, folder };
+export { version, color, quantized, palette, font, json, same, shape, allowed, gestures, describeError, features, connector, plan, layout, css, exportFlow, folder };
