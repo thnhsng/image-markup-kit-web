@@ -1,0 +1,9 @@
+dist/
+coverage/
+compat/
+test/fixtures/
+playwright-report/
+test-results/
+.cache/
+package-lock.json
+CHANGELOG.md

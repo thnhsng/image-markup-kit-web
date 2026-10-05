@@ -1,0 +1,6 @@
+* text=auto eol=lf
+test/fixtures/** -text
+*.jpg binary
+*.jpeg binary
+*.png binary
+*.webp binary

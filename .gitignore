@@ -1,0 +1,15 @@
+node_modules/
+dist/
+coverage/
+.cache/
+*.tgz
+*.log
+.DS_Store
+.env*
+playwright-report/
+test-results/
+example/dist/
+compat/*/node_modules/
+compat/*/build/
+compat/*/dist/
+compat/*/package-lock.json

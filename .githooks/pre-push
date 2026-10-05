@@ -1,0 +1,3 @@
+#!/bin/sh
+# Blocks a push when the tree or any commit contains private information (see scripts/privacy-scan.mjs).
+exec node scripts/privacy-scan.mjs --tree --history
