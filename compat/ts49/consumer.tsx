@@ -21,6 +21,14 @@ import {
   createLineItem,
   createShapeItem,
   createStrokeItem,
+  createTextItem,
+  createApproximateTextMeasurer,
+  createCanvasTextMeasurer,
+  cssFont,
+  fitTextContent,
+  layoutText,
+  measureTextContent,
+  DEFAULT_FONT_STACKS,
   isMarkupError,
   itemStyle,
   modelEquals,
@@ -32,6 +40,9 @@ import {
   shapeOfTool,
 } from 'image-markup-kit';
 import type {
+  FontStacks,
+  TextLayoutResult,
+  TextMeasurer,
   BoardArrangement,
   ExportPlan,
   MarkupExportFormat,
@@ -82,6 +93,13 @@ const format: MarkupExportFormat = { type: 'jpeg', quality: 0.85, maxBytes: 10_4
 const exportOptions: MarkupExportOptions = { ...DEFAULT_EXPORT_OPTIONS, format, maxPixelDimension: 4096, boardPadding: 0 };
 const plan: ExportPlan = planExport(arranged, exportOptions);
 
+const stacks: FontStacks = { system: { family: 'Inter, sans-serif' }, hiraginoSans: DEFAULT_FONT_STACKS.hiraginoSans };
+const measurer: TextMeasurer = typeof document === 'undefined' ? createApproximateTextMeasurer() : createCanvasTextMeasurer(stacks);
+const label = createTextItem('Summit 2,456 m', { x: 10, y: 10 }, { font, color: red, fixedWidth: 200, measurer });
+const fitted = fitTextContent(label.content, measurer);
+const layout: TextLayoutResult = layoutText(fitted, measureTextContent(fitted, measurer), measurer);
+const css: string = cssFont(font, stacks);
+
 const tool: MarkupTool = 'circle';
 const shape = shapeOfTool('circle');
 const feature: MarkupFeature = MARKUP_FEATURES[0] ?? 'pen';
@@ -100,4 +118,4 @@ function describeError(error: unknown): string {
 
 const props: MarkupEditorProps = { className: 'editor', style: { width: 100 } };
 export const element = <MarkupEditor {...props} />;
-export { version, color, quantized, palette, font, json, same, shape, allowed, describeError, features, connector, plan };
+export { version, color, quantized, palette, font, json, same, shape, allowed, describeError, features, connector, plan, layout, css };

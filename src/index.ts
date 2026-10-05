@@ -69,6 +69,7 @@ export {
   createPolylineItem,
   createShapeItem,
   createStrokeItem,
+  createTextItem,
   fittedSize,
 } from './model/factories';
 export {
@@ -87,6 +88,14 @@ export { MarkupError, isMarkupError } from './model/errors';
 // document.json
 export { parseDocument } from './codec/decode';
 export { serializeDocument } from './codec/encode';
+
+// Text
+export type { TextMeasurer } from './text/measurer';
+export { createApproximateTextMeasurer, createCanvasTextMeasurer } from './text/measurer';
+export type { FontStackSpec, FontStacks } from './text/font-stacks';
+export { DEFAULT_FONT_STACKS, cssFont } from './text/font-stacks';
+export type { TextLayoutResult, TextLine } from './text/text-layout';
+export { fitTextContent, layoutText, measureTextContent } from './text/text-layout';
 
 // Export
 export type { ExportPlan, MarkupExportFormat, MarkupExportOptions } from './render/export-planner';

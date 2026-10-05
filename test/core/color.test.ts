@@ -18,8 +18,8 @@ describe('parseHexColor', () => {
 
   it('trims whitespace and newlines like Foundation', () => {
     expect(parseHexColor(' \n#00FF00\t')).toBe('#00FF00FF');
-    expect(parseHexColor('\u0085#00FF00 ')).toBe('#00FF00FF');
-    expect(parseHexColor('﻿#00FF00')).toBeNull();
+    expect(parseHexColor('\u0085#00FF00\u2028')).toBe('#00FF00FF');
+    expect(parseHexColor('\uFEFF#00FF00')).toBeNull();
   });
 
   it('accepts a sign the way UInt64(_:radix:) does', () => {

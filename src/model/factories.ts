@@ -4,12 +4,15 @@ import {
   isNullRect,
   minX,
   minY,
+  rectAround,
   rectHeight,
   rectWidth,
   standardized,
   ZERO_RECT,
 } from '../geometry/rect';
-import { MarkupColors } from './color';
+import { measureTextContent } from '../text/text-layout';
+import type { TextMeasurer } from '../text/measurer';
+import { MarkupColors, type RGBAHex } from './color';
 import { CURRENT_SCHEMA_VERSION, IMAGE_LONG_EDGE } from './document';
 import { ULP_OF_ONE } from './swift-math';
 import { itemStyle } from './style';
@@ -27,6 +30,10 @@ import type {
   ShapeKind,
   Size,
   StrokeItem,
+  FontSpec,
+  TextAlignment,
+  TextContent,
+  TextItem,
 } from './types';
 import { createUUID } from './uuid';
 
@@ -83,6 +90,45 @@ export function createShapeItem(
       lockAspect: options.lockAspect ?? false,
     },
     style,
+    isLocked: false,
+    parentID: null,
+  };
+}
+
+/**
+ * A text box whose top-left corner is at `origin` (before rotation), sized to the text (`MarkupItem.text`).
+ * The style defaults to no border and no fill; notes pass a style with a fill and a border.
+ */
+export function createTextItem(
+  text: string,
+  origin: Point,
+  options: {
+    readonly font: FontSpec;
+    readonly color: RGBAHex;
+    readonly alignment?: TextAlignment;
+    readonly fixedWidth?: number | null;
+    readonly padding?: number;
+    readonly rotation?: number;
+    readonly style?: ItemStyle;
+    readonly measurer?: TextMeasurer;
+  },
+): TextItem {
+  const content: TextContent = {
+    text,
+    font: options.font,
+    color: options.color,
+    alignment: options.alignment ?? 'left',
+    fixedWidth: options.fixedWidth ?? null,
+    padding: options.padding ?? 8,
+    box: { frame: { x: origin.x, y: origin.y, width: 0, height: 0 }, rotation: 0 },
+  };
+  const size = measureTextContent(content, options.measurer);
+  const center = { x: origin.x + size.width / 2, y: origin.y + size.height / 2 };
+  return {
+    id: createUUID(),
+    type: 'text',
+    content: { ...content, box: { frame: rectAround(center, size), rotation: options.rotation ?? 0 } },
+    style: options.style ?? itemStyle({ strokeColor: null }),
     isLocked: false,
     parentID: null,
   };

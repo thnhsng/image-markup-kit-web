@@ -304,7 +304,7 @@ const cases = {
     }),
   ]),
   strings: doc([
-    text(1, { text: 'a/b "q" \\ \t \n \u0001 \u001f \u007f     😀 山小屋 6:00 出発' }),
+    text(1, { text: 'a/b "q" \\ \t \n \u0001 \u001f \u007f \u2028 \u2029 😀 山小屋 6:00 出発' }),
     image(2, { assetID: 'folder/photo name.jpg' }),
   ]),
   'duplicate-ids': doc([shape(1), shape(1, { kind: 'ellipse' })]),

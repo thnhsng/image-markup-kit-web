@@ -45,8 +45,8 @@ describe('formatSwiftNumber', () => {
 
 describe('escapeSwiftString', () => {
   it('replaces lone surrogates, which UTF-8 cannot carry', () => {
-    expect(escapeSwiftString('a\uD800b')).toBe('"a�b"');
-    expect(escapeSwiftString('\uDC00')).toBe('"�"');
+    expect(escapeSwiftString('a\uD800b')).toBe('"a\uFFFDb"');
+    expect(escapeSwiftString('\uDC00')).toBe('"\uFFFD"');
     expect(escapeSwiftString('😀')).toBe('"😀"');
   });
 });
