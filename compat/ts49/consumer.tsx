@@ -1,5 +1,7 @@
 // Uses the public API, so a declaration TypeScript 4.9 cannot read fails this check.
 import {
+  BOARD_ARRANGEMENTS,
+  DEFAULT_EXPORT_OPTIONS,
   MARKUP_FEATURES,
   MARKUP_PALETTE,
   MarkupColors,
@@ -9,6 +11,11 @@ import {
   MarkupFeaturesError,
   STANDARD_STYLE_DEFAULTS,
   VERSION,
+  appendImages,
+  arrangeBoard,
+  attachAnnotationsToPhotos,
+  createBoardDocument,
+  createConnectorItem,
   createCurveItem,
   createImageDocument,
   createLineItem,
@@ -18,12 +25,17 @@ import {
   itemStyle,
   modelEquals,
   parseDocument,
+  planExport,
   parseHexColor,
   rgba,
   serializeDocument,
   shapeOfTool,
 } from 'image-markup-kit';
 import type {
+  BoardArrangement,
+  ExportPlan,
+  MarkupExportFormat,
+  MarkupExportOptions,
   FontSpec,
   ItemStyle,
   LineItem,
@@ -57,6 +69,19 @@ const arrow: LineItem = createLineItem({ x: 0, y: 0 }, { x: 1, y: 1 }, style, { 
 const json: string = serializeDocument({ ...document, items: [...document.items, ...items, arrow] });
 const same: boolean = modelEquals(parseDocument(json), parseDocument(JSON.parse(json) as object));
 
+const board = createBoardDocument([{ assetID: 'a.jpg', pixelSize: { width: 400, height: 300 } }]);
+const appended = appendImages(board, [{ assetID: 'b.jpg', pixelSize: { width: 300, height: 400 } }]);
+const arrangement: BoardArrangement = BOARD_ARRANGEMENTS[0] ?? 'grid';
+const arranged: MarkupDocument = attachAnnotationsToPhotos(arrangeBoard(appended.document, arrangement));
+const [first, second] = arranged.items;
+const connector: LineItem | null =
+  first && second
+    ? createConnectorItem({ itemID: first.id, anchor: { x: 0.5, y: 0.5 } }, { itemID: second.id, anchor: { x: 0, y: 0.5 } }, arranged, style)
+    : null;
+const format: MarkupExportFormat = { type: 'jpeg', quality: 0.85, maxBytes: 10_485_760, fallbackQualities: [0.75, 0.6] };
+const exportOptions: MarkupExportOptions = { ...DEFAULT_EXPORT_OPTIONS, format, maxPixelDimension: 4096, boardPadding: 0 };
+const plan: ExportPlan = planExport(arranged, exportOptions);
+
 const tool: MarkupTool = 'circle';
 const shape = shapeOfTool('circle');
 const feature: MarkupFeature = MARKUP_FEATURES[0] ?? 'pen';
@@ -75,4 +100,4 @@ function describeError(error: unknown): string {
 
 const props: MarkupEditorProps = { className: 'editor', style: { width: 100 } };
 export const element = <MarkupEditor {...props} />;
-export { version, color, quantized, palette, font, json, same, shape, allowed, describeError, features };
+export { version, color, quantized, palette, font, json, same, shape, allowed, describeError, features, connector, plan };

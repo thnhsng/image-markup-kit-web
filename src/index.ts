@@ -71,6 +71,15 @@ export {
   createStrokeItem,
   fittedSize,
 } from './model/factories';
+export {
+  appendImages,
+  arrangeBoard,
+  attachAnnotationsToPhotos,
+  createBoardDocument,
+  createConnectorItem,
+} from './model/board';
+export type { BoardArrangement } from './geometry/board-layout';
+export { BOARD_ARRANGEMENTS } from './geometry/board-layout';
 export { createUUID, parseUUID } from './model/uuid';
 export type { MarkupErrorCode } from './model/errors';
 export { MarkupError, isMarkupError } from './model/errors';
@@ -78,6 +87,10 @@ export { MarkupError, isMarkupError } from './model/errors';
 // document.json
 export { parseDocument } from './codec/decode';
 export { serializeDocument } from './codec/encode';
+
+// Export
+export type { ExportPlan, MarkupExportFormat, MarkupExportOptions } from './render/export-planner';
+export { DEFAULT_EXPORT_OPTIONS, planExport } from './render/export-planner';
 
 // Features and tools
 export type { LineTool, MarkupTool, ShapeTool } from './editor/tools';

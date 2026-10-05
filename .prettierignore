@@ -7,3 +7,4 @@ test-results/
 .cache/
 package-lock.json
 CHANGELOG.md
+coverage/

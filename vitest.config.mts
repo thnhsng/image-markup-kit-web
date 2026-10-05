@@ -18,5 +18,11 @@ export default defineConfig({
         },
       },
     ],
+    coverage: {
+      provider: 'v8',
+      // The pure core is held to a high bar; browser-only parts are covered by the Playwright tests.
+      include: ['src/model/**', 'src/codec/**', 'src/features/**', 'src/geometry/**', 'src/render/export-planner.ts'],
+      thresholds: { lines: 95, statements: 93, functions: 95, branches: 85 },
+    },
   },
 });

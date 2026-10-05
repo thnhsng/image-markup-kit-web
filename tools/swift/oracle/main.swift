@@ -5,6 +5,7 @@
 //   oracle features <file.json>             decode MarkupFeatures(jsonData:), print jsonData() or the error
 //   oracle features-template [feature...]   print MarkupFeatures.all with the given features disabled
 //   oracle features-template-groups [group...] print MarkupFeatures.all with the given groups disabled
+//   oracle geometry <cases.json>            run the geometry cases (see geometry.swift)
 import Foundation
 
 func output(_ data: Data) {
@@ -29,6 +30,8 @@ do {
         } catch let error as MarkupFeaturesError {
             output(Data("error: \(error)".utf8))
         }
+    case "geometry":
+        output(try runGeometry(URL(fileURLWithPath: arguments[1])))
     case "features-template":
         var features = MarkupFeatures.all
         for name in arguments.dropFirst() {
