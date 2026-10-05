@@ -29,6 +29,9 @@ jobs:
       - run: npm run format:check
       - run: npm run typecheck
       - run: npm run test:coverage
+      - name: Install browsers
+        run: npx playwright install --with-deps chromium webkit firefox
+      - run: npm run test:browser
       - run: npm run build
       - run: npm run check:pack
       - run: npm run check:dts49

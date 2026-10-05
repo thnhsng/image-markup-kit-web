@@ -97,9 +97,20 @@ export { DEFAULT_FONT_STACKS, cssFont } from './text/font-stacks';
 export type { TextLayoutResult, TextLine } from './text/text-layout';
 export { fitTextContent, layoutText, measureTextContent } from './text/text-layout';
 
+// Images
+export type { ImageMetadata } from './image/metadata';
+export type { MarkupAssets, MarkupImageInput } from './image/import';
+export { importImages, readImageMetadata } from './image/import';
+
 // Export
 export type { ExportPlan, MarkupExportFormat, MarkupExportOptions } from './render/export-planner';
 export { DEFAULT_EXPORT_OPTIONS, planExport } from './render/export-planner';
+export type { MarkupRendering, MarkupWarning, RenderOptions } from './render/render-markup';
+export { renderMarkup } from './render/render-markup';
+
+// Packages
+export type { MarkupPackageFiles } from './package/package';
+export { MARKUP_PACKAGE_EXTENSION, createMarkupPackage, markupPackageName, readMarkupPackage } from './package/package';
 
 // Features and tools
 export type { LineTool, MarkupTool, ShapeTool } from './editor/tools';

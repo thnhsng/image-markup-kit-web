@@ -33,6 +33,13 @@ import {
   itemStyle,
   modelEquals,
   parseDocument,
+  renderMarkup,
+  importImages,
+  readImageMetadata,
+  createMarkupPackage,
+  readMarkupPackage,
+  markupPackageName,
+  MARKUP_PACKAGE_EXTENSION,
   planExport,
   parseHexColor,
   rgba,
@@ -40,6 +47,13 @@ import {
   shapeOfTool,
 } from 'image-markup-kit';
 import type {
+  ImageMetadata,
+  MarkupAssets,
+  MarkupImageInput,
+  MarkupPackageFiles,
+  MarkupRendering,
+  MarkupWarning,
+  RenderOptions,
   FontStacks,
   TextLayoutResult,
   TextMeasurer,
@@ -100,6 +114,19 @@ const fitted = fitTextContent(label.content, measurer);
 const layout: TextLayoutResult = layoutText(fitted, measureTextContent(fitted, measurer), measurer);
 const css: string = cssFont(font, stacks);
 
+async function exportFlow(inputs: MarkupImageInput[]): Promise<MarkupPackageFiles> {
+  const { sources, assets } = await importImages(inputs);
+  const metadata: ImageMetadata = await readImageMetadata(assets[sources[0]?.assetID ?? ''] ?? new Blob());
+  const doc = createBoardDocument(sources);
+  const options: RenderOptions = { ...exportOptions, fontStacks: stacks, measurer };
+  const rendering: MarkupRendering = await renderMarkup(doc, assets as MarkupAssets, options);
+  const warnings: readonly MarkupWarning[] = rendering.warnings;
+  const files = await createMarkupPackage(doc, assets, rendering.blob);
+  const read = await readMarkupPackage(files);
+  return warnings.length > 0 || metadata.orientation > 1 || read.exported === null ? files : files;
+}
+const folder: string = `${markupPackageName(arranged.id)} (${MARKUP_PACKAGE_EXTENSION})`;
+
 const tool: MarkupTool = 'circle';
 const shape = shapeOfTool('circle');
 const feature: MarkupFeature = MARKUP_FEATURES[0] ?? 'pen';
@@ -118,4 +145,4 @@ function describeError(error: unknown): string {
 
 const props: MarkupEditorProps = { className: 'editor', style: { width: 100 } };
 export const element = <MarkupEditor {...props} />;
-export { version, color, quantized, palette, font, json, same, shape, allowed, describeError, features, connector, plan, layout, css };
+export { version, color, quantized, palette, font, json, same, shape, allowed, describeError, features, connector, plan, layout, css, exportFlow, folder };
