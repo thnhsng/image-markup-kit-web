@@ -25,7 +25,7 @@ export default defineConfig({
         // Real engines for what only a browser can do: decoding, canvas drawing, encoding.
         test: {
           name: 'browser',
-          include: ['test/browser/**/*.test.ts'],
+          include: ['test/browser/**/*.test.{ts,tsx}'],
           browser: {
             enabled: true,
             provider: playwright(),

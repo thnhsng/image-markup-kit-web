@@ -1,5 +1,9 @@
 // Uses the public API, so a declaration TypeScript 4.9 cannot read fails this check.
+import { createRef } from 'react';
 import {
+  DEFAULT_THEME,
+  MARKUP_NAVIGATION_TEXTS,
+  MARKUP_STRINGS,
   BOARD_ARRANGEMENTS,
   DEFAULT_EXPORT_OPTIONS,
   MARKUP_FEATURES,
@@ -47,6 +51,17 @@ import {
   shapeOfTool,
 } from 'image-markup-kit';
 import type {
+  AddImageSource,
+  MarkupEditorConfiguration,
+  MarkupEditorHandle,
+  MarkupEditorState,
+  MarkupLocale,
+  MarkupNavigationTexts,
+  MarkupPanelKind,
+  MarkupResult,
+  MarkupStringOverrides,
+  MarkupStrings,
+  MarkupTheme,
   ImageMetadata,
   MarkupAssets,
   MarkupImageInput,
@@ -148,6 +163,50 @@ function describeError(error: unknown): string {
   return error instanceof MarkupError ? 'impossible' : String(error);
 }
 
-const props: MarkupEditorProps = { className: 'editor', style: { width: 100 } };
-export const element = <MarkupEditor {...props} />;
-export { version, color, quantized, palette, font, json, same, shape, allowed, gestures, describeError, features, connector, plan, layout, css, exportFlow, folder };
+const locale: MarkupLocale = 'ja';
+const strings: MarkupStrings = MARKUP_STRINGS[locale];
+const texts: MarkupNavigationTexts = { ...MARKUP_NAVIGATION_TEXTS.en, done: 'Save' };
+const overrides: MarkupStringOverrides = { shapeNames: { star: strings.shapeNames.star }, points: (value) => `${value}px` };
+const theme: MarkupTheme = { ...DEFAULT_THEME, accent: '#0A84FF' };
+const configuration: MarkupEditorConfiguration = {
+  title: 'Board',
+  exportOptions,
+  styleDefaults: defaults,
+  features,
+  navigationTexts: texts,
+  locale,
+  strings: overrides,
+  fontStacks: stacks,
+  includePackage: true,
+  showHeader: true,
+  styleNonce: 'nonce',
+  theme: { accent: theme.accent },
+  onAddImagesRequest: async (source: AddImageSource) => (source === 'camera' ? null : [new Blob()]),
+};
+const handle = createRef<MarkupEditorHandle>();
+const props: MarkupEditorProps = {
+  document: arranged,
+  assets: {},
+  configuration,
+  onDone: async (result: MarkupResult) => {
+    const files = result.package;
+    return files ? Object.keys(files).length + result.pixelSize.width : result.blob.size;
+  },
+  onCancel: () => undefined,
+  onError: (error: MarkupError) => describeError(error),
+  onStateChange: (state: MarkupEditorState) => state.hasChanges && state.tool === 'pen',
+  className: 'editor',
+  style: { width: 100 },
+};
+export const element = <MarkupEditor ref={handle} {...props} />;
+
+async function drive(editor: MarkupEditorHandle): Promise<readonly string[]> {
+  const panel: MarkupPanelKind = 'fillColor';
+  editor.setTool(tool);
+  editor.debug.perform(gestures[0] ?? { type: 'drag', itemIndex: 0, by: { x: 1, y: 1 } });
+  editor.debug.presentPanel(panel);
+  editor.arrange('grid');
+  await editor.done();
+  return editor.getSelectedItemIDs();
+}
+export { version, color, quantized, palette, font, json, same, shape, allowed, gestures, describeError, features, connector, plan, layout, css, exportFlow, folder, drive };

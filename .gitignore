@@ -13,3 +13,4 @@ compat/*/node_modules/
 compat/*/build/
 compat/*/dist/
 compat/*/package-lock.json
+.vitest/

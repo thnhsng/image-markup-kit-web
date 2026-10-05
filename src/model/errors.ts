@@ -15,6 +15,8 @@ export type MarkupErrorCode =
   | 'canvasAllocationFailed'
   /** The browser could not encode the image. */
   | 'encodingFailed'
+  /** The export failed for another reason (see `detail`). */
+  | 'exportFailed'
   /** The operation was cancelled. */
   | 'aborted';
 

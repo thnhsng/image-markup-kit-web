@@ -126,6 +126,18 @@ export {
 } from './features/features';
 
 // Editor
-export type { MarkupEditorProps } from './react/MarkupEditor';
+export type {
+  MarkupEditorConfiguration,
+  MarkupEditorHandle,
+  MarkupEditorProps,
+  MarkupEditorState,
+  MarkupResult,
+} from './react/MarkupEditor';
 export { MarkupEditor } from './react/MarkupEditor';
-export type { MarkupDebugGesture } from './editor/debug';
+export type { AddImageSource } from './react/Toolbar';
+export type { PanelKind as MarkupPanelKind } from './editor/controller';
+export type { MarkupDebugDriver, MarkupDebugGesture } from './editor/debug';
+export type { MarkupLocale, MarkupNavigationTexts, MarkupStringOverrides, MarkupStrings } from './react/strings';
+export { MARKUP_NAVIGATION_TEXTS, MARKUP_STRINGS } from './react/strings';
+export type { MarkupTheme } from './react/styles';
+export { DEFAULT_THEME } from './react/styles';

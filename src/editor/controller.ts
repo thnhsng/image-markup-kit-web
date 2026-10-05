@@ -1,5 +1,6 @@
 import { reassignParents } from '../geometry/attachments';
 import { resolvedPoints } from '../geometry/bindings';
+import { boxCenter } from '../geometry/box';
 import { itemAt } from '../geometry/hit-testing';
 import type { BoardArrangement } from '../geometry/board-layout';
 import { distance, midpoint } from '../geometry/vec';
@@ -10,6 +11,7 @@ import type {
   ImageSource,
   ItemStyle,
   MarkupDocument,
+  Rect,
   MarkupItem,
   Point,
   StyleDefaults,
@@ -272,6 +274,30 @@ export class EditorController implements InteractionEnvironment {
     if (!session) return;
     session.text = text;
     this.store.setPreview(this.documentWithText(text, session));
+    this.revealEditedText();
+  }
+
+  /** Screen frame of the text box being edited (it is edited unrotated). */
+  get editingFrame(): Rect | null {
+    const content = this.editingContent;
+    if (!content) return null;
+    const center = this.viewport.canvasToScreen(boxCenter(content.box));
+    const zoom = this.viewport.zoom;
+    const width = content.box.frame.width * zoom;
+    const height = content.box.frame.height * zoom;
+    return { x: center.x - width / 2, y: center.y - height / 2, width, height };
+  }
+
+  /** Scrolls the box being edited back into view when it reaches under the keyboard or above the top. */
+  private revealEditedText(): void {
+    const frame = this.editingFrame;
+    const content = this.editingContent;
+    if (!frame || !content) return;
+    const visibleHeight = this.viewport.size.height - this.viewport.keyboardInset;
+    if (frame.y + frame.height > visibleHeight - 12 || frame.y < 12) {
+      this.viewport.centerOn(boxCenter(content.box));
+      this.changed();
+    }
   }
 
   /** Applies a text-attribute change (font size, color…) to the box being edited. */
@@ -364,6 +390,7 @@ export class EditorController implements InteractionEnvironment {
     this.viewport.keyboardInset = value;
     this.viewport.clampOffset();
     this.changed();
+    this.revealEditedText();
   }
 
   private documentWithText(text: string, session: TextSessionState): MarkupDocument {
@@ -526,6 +553,18 @@ export class EditorController implements InteractionEnvironment {
     this.store.clearSelection();
   }
 
+  /** Marks an export in progress: pointers and shortcuts are ignored meanwhile. */
+  setExporting(exporting: boolean): void {
+    if (this.isExporting === exporting) return;
+    this.isExporting = exporting;
+    this.changed();
+  }
+
+  /** Redraws everything (e.g. after web fonts finished loading). */
+  refresh(): void {
+    this.changed();
+  }
+
   /** Before cancelling: ends text editing, closes the panel and ends the polyline. True when there is work to discard. */
   prepareForCancel(): boolean {
     this.endTextEditing();
@@ -609,6 +648,12 @@ export class EditorController implements InteractionEnvironment {
   zoomToFit(): void {
     this.viewport.updateLimits(this.store.document);
     this.viewport.zoomToFit(this.store.document);
+    this.changed();
+  }
+
+  /** Zooms keeping the canvas point under `screenPoint` in place (a trackpad pinch). */
+  zoomAround(screenPoint: Point, zoom: number): void {
+    this.viewport.zoomAround(screenPoint, zoom);
     this.changed();
   }
 
