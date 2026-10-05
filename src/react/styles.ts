@@ -228,7 +228,8 @@ export const STYLESHEET = `
   display: flex; align-items: center; justify-content: center; height: 44px; padding: 0;
   border: 3px solid transparent; border-radius: 8px; background: none; cursor: pointer;
 }
-.imk-swatches-text .imk-swatch-button { height: 36px; border-radius: 6px; }
+.imk-swatches-text .imk-swatch-button { height: 36px; min-width: 0; border-radius: 6px; }
+.imk-swatches-text .imk-swatch { width: 100%; max-width: 32px; height: auto; }
 .imk-swatch-button[aria-pressed="true"] { border-color: var(--imk-accent); }
 .imk-swatch-button:disabled { opacity: 0.35; cursor: default; }
 .imk-custom-color {

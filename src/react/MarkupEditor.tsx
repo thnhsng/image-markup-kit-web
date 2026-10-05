@@ -609,23 +609,29 @@ export const MarkupEditor = forwardRef<MarkupEditorHandle, MarkupEditorProps>(fu
     }
   };
 
+  // One handle for the editor's lifetime: its methods reach the current state, so a handle kept from before the photos
+  // finished loading keeps working.
+  const current = useLatest({ controller, done, cancel });
   useImperativeHandle(
     ref,
     () => ({
-      getDocument: () => controller?.store.document ?? null,
-      getTool: () => controller?.store.tool ?? 'select',
-      setTool: (tool) => controller?.selectTool(tool),
-      getSelectedItemIDs: () => controller?.store.selection ?? [],
-      setSelectedItemIDs: (ids) => controller?.store.select(ids),
-      undo: () => controller?.undo(),
-      redo: () => controller?.redo(),
-      zoomToFit: () => controller?.zoomToFit(),
-      arrange: (arrangement) => controller?.arrange(arrangement),
-      done,
-      cancel,
-      debug: controller ? createDebugDriver(controller) : NO_DEBUG,
+      getDocument: () => current.current.controller?.store.document ?? null,
+      getTool: () => current.current.controller?.store.tool ?? 'select',
+      setTool: (tool) => current.current.controller?.selectTool(tool),
+      getSelectedItemIDs: () => current.current.controller?.store.selection ?? [],
+      setSelectedItemIDs: (ids) => current.current.controller?.store.select(ids),
+      undo: () => current.current.controller?.undo(),
+      redo: () => current.current.controller?.redo(),
+      zoomToFit: () => current.current.controller?.zoomToFit(),
+      arrange: (arrangement) => current.current.controller?.arrange(arrangement),
+      done: () => current.current.done(),
+      cancel: () => current.current.cancel(),
+      get debug() {
+        const editor = current.current.controller;
+        return editor ? createDebugDriver(editor) : NO_DEBUG;
+      },
     }),
-    [controller, done, cancel],
+    [current],
   );
 
   // A new environment after the fonts load makes every item lay its text out again.

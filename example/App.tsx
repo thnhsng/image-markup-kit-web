@@ -131,6 +131,8 @@ function download(name: string, blob: Blob): void {
  * `&panel=shapeStyle` (opens a style panel).
  */
 const LINK = typeof window === 'undefined' ? new URLSearchParams() : new URLSearchParams(window.location.search);
+/** The scripted markup of a link runs once per page load. */
+let demoStarted = false;
 
 /** Marks up the open document like a person would, through the editor's scripted gestures. */
 function runDemo(handle: MarkupEditorHandle, locale: MarkupLocale, panel: string | null): void {
@@ -244,14 +246,14 @@ export function App(): ReactElement {
   const demo = LINK.get('demo') === '1';
   const onReady = (handle: MarkupEditorHandle | null) => {
     window.markupEditor = handle;
-    if (!handle || !demo) return;
+    if (!handle || !demo || demoStarted) return;
+    demoStarted = true;
     // Waits for the photos, then marks the document up once.
     const start = () => {
       if (!handle.getDocument()) {
         setTimeout(start, 100);
         return;
       }
-      if (handle.getDocument()!.items.length > 1) return;
       runDemo(handle, locale, LINK.get('panel'));
     };
     start();

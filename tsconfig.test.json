@@ -2,7 +2,10 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "lib": ["ES2022", "DOM", "DOM.Iterable"],
-    "types": ["node"]
+    "types": ["node"],
+    "paths": {
+      "image-markup-kit": ["./src/index.ts"]
+    }
   },
   "include": ["src", "test", "example", "e2e", "tsup.config.ts", "vitest.config.mts"]
 }

@@ -638,6 +638,20 @@ describe('lifecycle', () => {
     expect(screen.getByRole('heading').textContent).toBe('Board');
   });
 
+  it('keeps one handle from the first render on', async () => {
+    const ref = createRef<MarkupEditorHandle>();
+    render(<MarkupEditor ref={ref} image={jpeg()} onDone={vi.fn()} onCancel={vi.fn()} />);
+    const early = ref.current!;
+    expect(early.getDocument()).toBeNull();
+    expect(early.getTool()).toBe('select');
+    await waitFor(() => expect(early.getDocument()).not.toBeNull());
+    expect(ref.current).toBe(early);
+    act(() => early.setTool('pen'));
+    expect(early.getTool()).toBe('pen');
+    act(() => early.debug.perform({ type: 'draw', tool: 'pen', points: [P(10, 10), P(90, 50)] }));
+    expect(early.getDocument()?.items).toHaveLength(2);
+  });
+
   it('reports photos it cannot open', async () => {
     const onError = vi.fn();
     render(<MarkupEditor image={new Blob(['not an image'])} onDone={vi.fn()} onCancel={vi.fn()} onError={onError} />);
