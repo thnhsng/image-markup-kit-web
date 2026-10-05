@@ -57,7 +57,14 @@ jobs:
           registry-url: https://registry.npmjs.org
       - run: npm ci
       - run: npm run build
-      - run: npm publish --provenance --access public --ignore-scripts
+      - name: Publish (unless this version is already on npm, so a failed run can be re-run)
+        run: |
+          version="${GITHUB_REF_NAME#v}"
+          if npm view "image-markup-kit@$version" version >/dev/null 2>&1; then
+            echo "image-markup-kit@$version is already published"
+          else
+            npm publish --provenance --access public --ignore-scripts
+          fi
       - name: Privacy scan of the published version
         env:
           PRIVACY_TERMS: ${{ secrets.PRIVACY_TERMS }}
@@ -67,5 +74,9 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           version="${GITHUB_REF_NAME#v}"
-          awk -v heading="## [$version]" 'index($0, heading) == 1 { found = 1; next } found && /^## \[/ { exit } found { print }' CHANGELOG.md > notes.md
-          gh release create "$GITHUB_REF_NAME" --title "$GITHUB_REF_NAME" --notes-file notes.md --verify-tag
+          awk -v heading="## [$version]" 'index($0, heading) == 1 { found = 1; next } found && /^## \[/ { exit } found && /^\[.*\]: / { next } found { print }' CHANGELOG.md > notes.md
+          if gh release view "$GITHUB_REF_NAME" >/dev/null 2>&1; then
+            echo "the release $GITHUB_REF_NAME already exists"
+          else
+            gh release create "$GITHUB_REF_NAME" --title "$GITHUB_REF_NAME" --notes-file notes.md --verify-tag
+          fi
