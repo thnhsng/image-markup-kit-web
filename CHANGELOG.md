@@ -7,6 +7,8 @@ matches it.
 
 ## [Unreleased]
 
+## [0.1.0] - 2026-10-05
+
 The first release: the web counterpart of ImageMarkupKit 0.2.0 for Swift.
 
 ### Added
@@ -25,3 +27,6 @@ The first release: the web counterpart of ImageMarkupKit 0.2.0 for Swift.
 - `renderMarkup` and `planExport` for exports without the editor: JPEG or PNG, a 16 MP default budget for iOS Safari,
   and `maxBytes` with fallback qualities.
 - Photo import with EXIF orientation, HEIC kept byte for byte, and on-screen copies sized for the screen.
+
+[Unreleased]: https://github.com/thnhsng/image-markup-kit-web/compare/v0.1.0...HEAD
+[0.1.0]: https://github.com/thnhsng/image-markup-kit-web/releases/tag/v0.1.0
