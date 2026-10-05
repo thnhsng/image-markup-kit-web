@@ -128,7 +128,8 @@ function Accessory({
     Math.max(frame.x + frame.width / 2 - ACCESSORY_WIDTH / 2, 8),
     Math.max(size.width - ACCESSORY_WIDTH - 8, 8),
   );
-  // Buttons must not take the focus from the text box.
+  // Buttons must not take the focus from the text box. The focus moves on the (compatibility) mouse down, also after a
+  // tap; preventing the pointer down instead would cancel the tap's click in WebKit.
   const keepFocus = (event: { preventDefault(): void }) => event.preventDefault();
   return (
     <div
@@ -137,7 +138,6 @@ function Accessory({
       aria-label={strings.textStyle}
       data-testid="markup.textAccessory"
       style={{ left, top }}
-      onPointerDown={keepFocus}
       onMouseDown={keepFocus}
     >
       <button

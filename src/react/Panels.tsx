@@ -1,4 +1,4 @@
-import { useEffect, useRef, type KeyboardEvent, type ReactElement, type ReactNode } from 'react';
+import { useEffect, useLayoutEffect, useRef, type KeyboardEvent, type ReactElement, type ReactNode } from 'react';
 import type { EditorController, PanelKind } from '../editor/controller';
 import { isShapeTool, shapeOfTool } from '../editor/tools';
 import { colorComponents, MARKUP_PALETTE, MarkupColors, rgba, type RGBAHex } from '../model/color';
@@ -6,7 +6,7 @@ import { modelEquals } from '../model/document';
 import type { ArrowHead, DashStyle, FontFamily, ShapeKind, TextAlignment } from '../model/types';
 import { swiftRound } from '../model/swift-math';
 import { Icon, Swatch, type IconName } from './icons';
-import { popupPosition, type Anchor, type RootSize } from './Menu';
+import { anchorFor, popupPosition, type Anchor, type RootSize } from './Menu';
 import type { MarkupStrings } from './strings';
 
 // The style panels (StylePanels.swift): Shape Style, Border Color, Fill Color and Text Style. They edit the selection,
@@ -448,13 +448,11 @@ export function PanelHost({
   controller,
   strings,
   kind,
-  anchor,
   root,
   sheet,
   onClose,
 }: PanelProps & {
   readonly kind: PanelKind;
-  readonly anchor: Anchor | null;
   readonly root: RootSize;
   readonly sheet: boolean;
   readonly onClose: () => void;
@@ -463,6 +461,20 @@ export function PanelHost({
   useEffect(() => {
     element.current?.focus({ preventScroll: true });
   }, [kind]);
+  // A popover sits under its toolbar button, however the panel was opened (a button, or the host's handle).
+  useLayoutEffect(() => {
+    const panel = element.current;
+    const editor = panel?.closest<HTMLElement>('.imk-root');
+    if (!panel || !editor || sheet) return;
+    const button = editor.querySelector<HTMLElement>(`[data-testid="toolbar.${kind}"]`);
+    const size = { width: editor.clientWidth, height: editor.clientHeight };
+    const anchor: Anchor = button
+      ? anchorFor(button, editor, false)
+      : { x: size.width - PANEL_WIDTH / 2 - 8, y: 0, width: 0, height: 0, above: false };
+    const position = popupPosition(anchor, PANEL_WIDTH, size);
+    panel.style.left = `${position.left}px`;
+    panel.style.top = position.top !== undefined ? `${position.top}px` : '';
+  }, [kind, sheet, root.width, root.height]);
   const title = strings[TITLES[kind]] as string;
   const onKeyDown = (event: KeyboardEvent) => {
     if (event.key !== 'Escape') return;
@@ -483,7 +495,6 @@ export function PanelHost({
       body = <TextStylePanel controller={controller} strings={strings} />;
       break;
   }
-  const position = !sheet && anchor ? popupPosition(anchor, PANEL_WIDTH, root) : null;
   return (
     <div
       ref={element}
@@ -492,7 +503,6 @@ export function PanelHost({
       aria-label={title}
       tabIndex={-1}
       data-testid={`panel.${kind}`}
-      style={position ?? undefined}
       onKeyDown={onKeyDown}
     >
       {sheet ? <div className="imk-grabber" aria-hidden="true" /> : null}

@@ -59,3 +59,27 @@ jobs:
       - run: npm ci
       - run: npm run build
       - run: node scripts/compat.mjs
+
+  e2e:
+    # The example app in desktop and touch browsers, with the performance and memory budgets. Only on main and
+    # manual runs, to keep CI minutes low.
+    if: github.event_name == 'workflow_dispatch' || github.ref == 'refs/heads/main'
+    needs: verify
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - name: Install browsers
+        run: npx playwright install --with-deps chromium webkit firefox
+      - run: npm run test:e2e
+      - name: Upload traces
+        if: failure()
+        uses: actions/upload-artifact@v7
+        with:
+          name: e2e-traces
+          path: test-results/
+          retention-days: 7

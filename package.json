@@ -65,12 +65,16 @@
     "check:pack": "node scripts/pack-check.mjs",
     "check:dts49": "node scripts/dts49.mjs",
     "check:compat": "node scripts/compat.mjs",
+    "example": "vite --config example/vite.config.mts",
+    "example:build": "vite build --config example/vite.config.mts",
+    "example:preview": "vite preview --config example/vite.config.mts",
     "scan:privacy": "node scripts/privacy-scan.mjs --tree --history --pack",
     "verify": "npm run lint && npm run format:check && npm run typecheck && npm run test:coverage && npm run test:browser && npm run build && npm run check:pack && npm run check:dts49 && npm run scan:privacy",
     "version": "node scripts/sync-version.mjs && git add src/version.ts",
     "prepublishOnly": "npm run verify && node scripts/privacy-scan.mjs --pack --require-terms",
     "test:coverage": "vitest run --coverage --project core --project react",
-    "test:browser": "vitest run --project browser"
+    "test:browser": "vitest run --project browser",
+    "test:e2e": "playwright test --config e2e/playwright.config.ts"
   },
   "devDependencies": {
     "@arethetypeswrong/cli": "0.18.5",

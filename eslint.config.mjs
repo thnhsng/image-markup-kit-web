@@ -10,7 +10,7 @@ export default tseslint.config(
   js.configs.recommended,
   ...tseslint.configs.recommended,
   {
-    files: ['src/**/*.{ts,tsx}'],
+    files: ['src/**/*.{ts,tsx}', 'example/**/*.{ts,tsx}'],
     plugins: { 'react-hooks': reactHooks },
     languageOptions: { globals: globals.browser },
     rules: {
@@ -23,7 +23,14 @@ export default tseslint.config(
     },
   },
   {
-    files: ['scripts/**/*.mjs', 'tools/**/*.mjs', '*.config.{js,mjs,ts,mts}', 'test/**/*.{ts,tsx}'],
+    files: [
+      'scripts/**/*.mjs',
+      'tools/**/*.mjs',
+      '*.config.{js,mjs,ts,mts}',
+      'example/*.config.mts',
+      'test/**/*.{ts,tsx}',
+      'e2e/**/*.ts',
+    ],
     languageOptions: { globals: { ...globals.node } },
   },
 );

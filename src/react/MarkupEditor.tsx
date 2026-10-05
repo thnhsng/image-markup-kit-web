@@ -390,7 +390,6 @@ export const MarkupEditor = forwardRef<MarkupEditorHandle, MarkupEditorProps>(fu
 
   const [rootSize, setRootSize] = useState<RootSize>({ width: 0, height: 0 });
   const [menu, setMenu] = useState<{ readonly kind: ToolbarMenuKind; readonly anchor: Anchor } | null>(null);
-  const [panelAnchor, setPanelAnchor] = useState<Anchor | null>(null);
   const [discardOpen, setDiscardOpen] = useState(false);
   const [banner, setBanner] = useState<string | null>(null);
   const [fontEpoch, setFontEpoch] = useState(0);
@@ -675,11 +674,9 @@ export const MarkupEditor = forwardRef<MarkupEditorHandle, MarkupEditorProps>(fu
     controller.dismissPanel();
     setMenu(menu?.kind === kind ? null : { kind, anchor: anchorFor(button, element, !wide) });
   };
-  const togglePanel = (kind: PanelKind, button: HTMLElement) => {
-    const element = root.current;
-    if (!element || !controller) return;
+  const togglePanel = (kind: PanelKind) => {
+    if (!controller) return;
     setMenu(null);
-    setPanelAnchor(anchorFor(button, element, !wide));
     controller.togglePanel(kind);
   };
 
@@ -790,7 +787,6 @@ export const MarkupEditor = forwardRef<MarkupEditorHandle, MarkupEditorProps>(fu
           controller={controller}
           strings={strings}
           kind={controller.openPanel}
-          anchor={panelAnchor}
           root={rootSize}
           sheet={!wide}
           onClose={() => {

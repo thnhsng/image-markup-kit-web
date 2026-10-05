@@ -58,6 +58,8 @@ const ALLOWED_HOSTS = [
   'developer.mozilla.org',
   'unicode.org',
   'lucide.dev',
+  'wikimedia.org',
+  'creativecommons.org',
   'playwright.dev',
   'vitest.dev',
   'react.dev',
