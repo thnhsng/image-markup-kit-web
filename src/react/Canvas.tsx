@@ -28,8 +28,8 @@ interface CanvasProps {
   readonly version: number;
   readonly env: DisplayEnvironment;
   readonly images: ReadonlyMap<string, string>;
-  /** Called on every pointer down (the editor takes keyboard focus). */
-  readonly onPointerDownCapture: () => void;
+  /** Called after every pointer down reached the controller (the editor then takes the keyboard focus). */
+  readonly onCanvasPointerDown: () => void;
   /** The in-place text editor, focused when a tap starts editing (so phones show their keyboard). */
   readonly textEditorRef: RefObject<HTMLTextAreaElement>;
 }
@@ -80,10 +80,12 @@ export function Canvas({
   version,
   env,
   images,
-  onPointerDownCapture,
+  onCanvasPointerDown,
   textEditorRef,
 }: CanvasProps): ReactElement {
   const element = useRef<HTMLDivElement>(null);
+  // Touch pointers down: on iOS a two-finger pinch also sends Safari's gesture events, which must not zoom twice.
+  const touches = useRef(new Set<number>());
   // Ids for url(#…) references, unique in the page and made of plain characters (React's useId adds colons).
   const [ids] = useState(() => {
     nextCanvasID += 1;
@@ -128,6 +130,8 @@ export function Canvas({
     };
     const onGestureChange = (event: Event) => {
       event.preventDefault();
+      // Touch pinches arrive as pointers too; only trackpad pinches (macOS Safari) zoom from here.
+      if (touches.current.size > 0) return;
       const gesture = event as GestureEvent;
       controller.zoomAround(localPoint(node, gesture), gestureZoom * gesture.scale);
     };
@@ -144,7 +148,6 @@ export function Canvas({
   const onPointerDown = (event: ReactPointerEvent<HTMLDivElement>) => {
     // Mouse: the primary and middle buttons only (the context menu stays the browser's).
     if (event.pointerType === 'mouse' && event.button !== 0 && event.button !== 1) return;
-    onPointerDownCapture();
     const node = event.currentTarget;
     try {
       node.setPointerCapture(event.pointerId);
@@ -152,17 +155,23 @@ export function Canvas({
       // Some pointers cannot be captured (e.g. already released); events still arrive while over the canvas.
     }
     if (event.button === 1) event.preventDefault();
+    if (event.pointerType === 'touch') touches.current.add(event.pointerId);
     controller.pointerDown(pointerInput(node, event));
+    // Only now may the editor take the focus: that blurs the text box, and the pointer must first end its edit (a
+    // pointer outside the text being edited does nothing else).
+    onCanvasPointerDown();
   };
   const onPointerMove = (event: ReactPointerEvent<HTMLDivElement>) => {
     controller.pointerMove(pointerInput(event.currentTarget, event));
   };
   const onPointerUp = (event: ReactPointerEvent<HTMLDivElement>) => {
+    touches.current.delete(event.pointerId);
     controller.pointerUp(pointerInput(event.currentTarget, event));
     // Focus inside the release handler, which phones count as a user gesture that may show the keyboard.
     if (controller.isEditingText()) textEditorRef.current?.focus({ preventScroll: true });
   };
   const onPointerCancel = (event: ReactPointerEvent<HTMLDivElement>) => {
+    touches.current.delete(event.pointerId);
     controller.pointerCancel(pointerInput(event.currentTarget, event));
   };
 
@@ -189,18 +198,16 @@ export function Canvas({
       onPointerCancel={onPointerCancel}
       onLostPointerCapture={onPointerCancel}
       onContextMenu={(event) => event.preventDefault()}
+      onDragStart={(event) => event.preventDefault()}
     >
       <svg className="imk-content" aria-hidden="true">
-        <defs>
-          <filter id={ids.shadow} x="-50%" y="-50%" width="200%" height="200%">
-            <feDropShadow dx={0} dy={3} stdDeviation={4} floodColor="#000000" floodOpacity={0.3} />
-          </filter>
-          {clip ? (
+        {clip ? (
+          <defs>
             <clipPath id={ids.clip}>
               <rect x={clip.x} y={clip.y} width={clip.width} height={clip.height} />
             </clipPath>
-          ) : null}
-        </defs>
+          </defs>
+        ) : null}
         <g transform={transform}>
           <g clipPath={clip ? `url(#${ids.clip})` : undefined}>
             <ItemsLayer
@@ -208,7 +215,7 @@ export function Canvas({
               hidden={controller.hiddenItemIDs}
               env={env}
               images={images}
-              shadowFilter={ids.shadow}
+              idPrefix={ids.shadow}
             />
             <Previews controller={controller} />
           </g>

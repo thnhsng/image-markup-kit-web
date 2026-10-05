@@ -34,6 +34,7 @@ import { Icon, LineToolIcon, ShapeIcon } from './icons';
 import { useImageProxies } from './image-proxies';
 import { anchorFor, Menu, type Anchor, type MenuEntry, type RootSize } from './Menu';
 import { PanelHost } from './Panels';
+import { EMPTY_DOCUMENT } from './svg';
 import {
   resolveNavigationTexts,
   resolveStrings,
@@ -56,7 +57,10 @@ import {
 // The editor (MarkupEditorViewController.swift): header, toolbar, canvas, panels and the export on Done. Like the
 // Swift editor it never closes itself: the host unmounts it from `onDone` or `onCancel`.
 
-/** Editor options, read once when the editor opens. */
+/**
+ * Editor options. `features`, `styleDefaults` and `fontStacks` are read once, when the editor opens; the others apply
+ * as they change.
+ */
 export interface MarkupEditorConfiguration {
   /** Header title; "Markup" or "Board" by default. */
   readonly title?: string;
@@ -182,14 +186,6 @@ const NO_DEBUG: MarkupDebugDriver = {
   arrange: () => undefined,
   setFill: () => undefined,
   zoomToFit: () => undefined,
-};
-const EMPTY_DOCUMENT: MarkupDocument = {
-  schemaVersion: 1,
-  id: '00000000-0000-0000-0000-000000000000',
-  kind: 'board',
-  backgroundItemID: null,
-  backgroundColor: '#FFFFFFFF',
-  items: [],
 };
 const NO_ASSETS: MarkupAssets = {};
 
@@ -752,8 +748,10 @@ export const MarkupEditor = forwardRef<MarkupEditorHandle, MarkupEditorProps>(fu
             version={version}
             env={env}
             images={images}
-            onPointerDownCapture={() => {
+            onCanvasPointerDown={() => {
               setMenu(null);
+              // Popovers close when the canvas is touched; sheets of narrow editors stay, like on iOS.
+              if (wide) controller.dismissPanel();
               root.current?.focus({ preventScroll: true });
             }}
             textEditorRef={textEditor}

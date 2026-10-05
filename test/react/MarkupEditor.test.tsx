@@ -371,6 +371,44 @@ describe('text editing', () => {
     fireEvent.pointerUp(element, { pointerId: 1, clientX: x, clientY: y, pointerType: 'touch', button: 0 });
   }
 
+  it('only ends the edit when the canvas is tapped outside a new box', () => {
+    const { ref } = renderEditor();
+    act(() => ref.current?.setTool('text'));
+    const canvas = screen.getByTestId('markup.canvas');
+    tap(canvas, 600, 500);
+    const textarea = screen.getByTestId('markup.textEditor') as HTMLTextAreaElement;
+    expect(textarea.className).toBe('imk-text-editor');
+    // The empty box goes away and no second box appears where the canvas was tapped.
+    tap(canvas, 200, 200);
+    expect(textarea.className).toContain('imk-text-editor-idle');
+    expect(ref.current!.getDocument()!.items).toHaveLength(1);
+    expect(tool(ref)).toBe('text');
+    expect((screen.getByTestId('markup.undo') as HTMLButtonElement).disabled).toBe(true);
+  });
+
+  it('commits an edit and selects nothing else when the canvas is tapped in Select mode', () => {
+    const text = createTextItem('Hello', P(100, 100), { font: DEFAULT_FONT, color: MarkupColors.red });
+    const rect = createShapeItem('rectangle', { x: 400, y: 400, width: 200, height: 120 }, itemStyle());
+    const { ref } = renderEditor({ document: board([text, rect]) });
+    act(() => ref.current?.setSelectedItemIDs([text.id]));
+    fireEvent.click(screen.getByTestId('action.editText'));
+    const textarea = screen.getByTestId('markup.textEditor') as HTMLTextAreaElement;
+    fireEvent.change(textarea, { target: { value: 'Hello there' } });
+    // A tap on the rectangle ends the edit, and the tap selects nothing.
+    const screenPoint = (point: { x: number; y: number }) => {
+      const transform = screen
+        .getByTestId('markup.canvas')
+        .querySelector('svg.imk-content > g')!
+        .getAttribute('transform')!;
+      const [zoom, , , , offsetX, offsetY] = transform.slice(7, -1).split(' ').map(Number) as number[];
+      return { x: point.x * zoom! + offsetX!, y: point.y * zoom! + offsetY! };
+    };
+    const target = screenPoint(P(500, 460));
+    tap(screen.getByTestId('markup.canvas'), target.x, target.y);
+    expect(screen.getByTestId('markup.undo').getAttribute('aria-label')).toBe('Undo Edit Text');
+    expect(ref.current?.getSelectedItemIDs()).toEqual([]);
+  });
+
   it('types new text in place and commits it when the box loses focus', () => {
     const { ref } = renderEditor();
     act(() => ref.current?.setTool('text'));
@@ -622,5 +660,70 @@ describe('lifecycle', () => {
     fireEvent.click(screen.getByTestId('toolbar.addImages'));
     expect(onAddImagesRequest).toHaveBeenCalledWith('photoLibrary');
     await waitFor(() => expect(imageItems(second.ref.current!.getDocument()!)).toHaveLength(3));
+  });
+});
+
+describe('canvas details', () => {
+  it('gives shadows a region that also fits thin items', () => {
+    const line = createLineItem(P(100, 400), P(500, 400), itemStyle({ shadow: true }));
+    renderEditor({ document: board([line]) });
+    const group = screen.getByTestId('markup.canvas').querySelector(`[data-item-id="${line.id}"]`)!;
+    const filter = group.querySelector('filter')!;
+    expect(group.getAttribute('filter')).toBe(`url(#${filter.id})`);
+    expect(filter.getAttribute('filterUnits')).toBe('userSpaceOnUse');
+    expect(Number(filter.getAttribute('height'))).toBeGreaterThan(20);
+    expect(Number(filter.getAttribute('width'))).toBeGreaterThan(400);
+  });
+
+  it('closes popovers when the canvas is touched, but keeps sheets', () => {
+    renderEditor();
+    const canvas = screen.getByTestId('markup.canvas');
+    fireEvent.click(screen.getByTestId('toolbar.shapeStyle'));
+    expect(screen.getByTestId('panel.shapeStyle')).toBeDefined();
+    fireEvent.pointerDown(canvas, { pointerId: 1, clientX: 5, clientY: 5, pointerType: 'mouse', button: 0 });
+    fireEvent.pointerUp(canvas, { pointerId: 1, clientX: 5, clientY: 5, pointerType: 'mouse', button: 0 });
+    expect(screen.queryByTestId('panel.shapeStyle')).toBeNull();
+    cleanup();
+
+    vi.stubGlobal(
+      'ResizeObserver',
+      class {
+        constructor(private readonly callback: () => void) {}
+        observe() {
+          this.callback();
+        }
+        disconnect() {}
+      },
+    );
+    layout(400, 700);
+    renderEditor();
+    fireEvent.click(screen.getByTestId('toolbar.shapeStyle'));
+    const narrowCanvas = screen.getByTestId('markup.canvas');
+    fireEvent.pointerDown(narrowCanvas, { pointerId: 1, clientX: 5, clientY: 5, pointerType: 'touch', button: 0 });
+    fireEvent.pointerUp(narrowCanvas, { pointerId: 1, clientX: 5, clientY: 5, pointerType: 'touch', button: 0 });
+    expect(screen.getByTestId('panel.shapeStyle')).toBeDefined();
+  });
+
+  it('zooms with trackpad pinches but leaves touch pinches to the pointers', () => {
+    renderEditor();
+    const canvas = screen.getByTestId('markup.canvas');
+    const transform = () => canvas.querySelector('svg.imk-content > g')!.getAttribute('transform');
+    const gesture = (type: string, scale: number) => {
+      const event = new Event(type, { bubbles: true, cancelable: true });
+      Object.assign(event, { scale, clientX: 500, clientY: 400 });
+      canvas.dispatchEvent(event);
+      return event;
+    };
+    const before = transform();
+    fireEvent.pointerDown(canvas, { pointerId: 7, clientX: 5, clientY: 5, pointerType: 'touch', button: 0 });
+    gesture('gesturestart', 1);
+    expect(gesture('gesturechange', 2).defaultPrevented).toBe(true);
+    expect(transform()).toBe(before);
+    fireEvent.pointerUp(canvas, { pointerId: 7, clientX: 5, clientY: 5, pointerType: 'touch', button: 0 });
+    act(() => {
+      gesture('gesturestart', 1);
+      gesture('gesturechange', 1.5);
+    });
+    expect(transform()).not.toBe(before);
   });
 });

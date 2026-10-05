@@ -1,4 +1,4 @@
-import { useLayoutEffect, type RefObject } from 'react';
+import { useEffect, useLayoutEffect, type RefObject } from 'react';
 import { VERSION } from '../version';
 
 // The editor's stylesheet: one <style> element per document (or shadow root), shared by every editor in it and
@@ -272,7 +272,9 @@ const injected = new WeakMap<Node, Injected>();
 
 /** Adds the stylesheet next to `root` (its document head, or its shadow root) while the editor is mounted. */
 export function useStylesheet(root: RefObject<HTMLElement>, nonce: string | undefined): void {
-  useLayoutEffect(() => {
+  // Before the first paint in browsers; on servers, where layout effects only warn, there is nothing to style.
+  const useBrowserLayoutEffect = typeof window === 'undefined' ? useEffect : useLayoutEffect;
+  useBrowserLayoutEffect(() => {
     const element = root.current;
     if (!element) return undefined;
     const owner = element.getRootNode();
