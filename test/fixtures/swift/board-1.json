@@ -1,0 +1,323 @@
+{
+  "backgroundColor" : "#FFFFFFFF",
+  "id" : "814926C0-4969-40A4-BDFD-6BD7BC089B25",
+  "items" : [
+    {
+      "content" : {
+        "assetID" : "sample-a.jpg",
+        "box" : {
+          "frame" : [
+            [
+              0,
+              0
+            ],
+            [
+              800,
+              600
+            ]
+          ],
+          "rotation" : 0
+        },
+        "pixelSize" : [
+          4032,
+          3024
+        ]
+      },
+      "id" : "808E23CA-94EA-4709-AC6E-DF1F25124F69",
+      "style" : {
+        "cornerRadius" : 0,
+        "dash" : "solid",
+        "lineWidth" : 6,
+        "opacity" : 1,
+        "shadow" : false
+      },
+      "type" : "image"
+    },
+    {
+      "content" : {
+        "assetID" : "sample-b.jpg",
+        "box" : {
+          "frame" : [
+            [
+              848,
+              0
+            ],
+            [
+              450,
+              600
+            ]
+          ],
+          "rotation" : 0
+        },
+        "pixelSize" : [
+          3024,
+          4032
+        ]
+      },
+      "id" : "0FD8D1B4-A075-4438-8ECF-CD4181456DC1",
+      "style" : {
+        "cornerRadius" : 0,
+        "dash" : "solid",
+        "lineWidth" : 6,
+        "opacity" : 1,
+        "shadow" : false
+      },
+      "type" : "image"
+    },
+    {
+      "content" : {
+        "assetID" : "sample-c.jpg",
+        "box" : {
+          "frame" : [
+            [
+              1346,
+              0
+            ],
+            [
+              1600,
+              600
+            ]
+          ],
+          "rotation" : 0
+        },
+        "pixelSize" : [
+          4000,
+          1500
+        ]
+      },
+      "id" : "F36BDD3B-C842-4E2C-A839-F0857E5E108F",
+      "style" : {
+        "cornerRadius" : 0,
+        "dash" : "solid",
+        "lineWidth" : 6,
+        "opacity" : 1,
+        "shadow" : false
+      },
+      "type" : "image"
+    },
+    {
+      "content" : {
+        "box" : {
+          "frame" : [
+            [
+              110,
+              40
+            ],
+            [
+              200,
+              280
+            ]
+          ],
+          "rotation" : 0
+        },
+        "kind" : "ellipse",
+        "lockAspect" : false
+      },
+      "id" : "587D1E25-AB19-4C64-A15A-2E8269C755E4",
+      "parentID" : "808E23CA-94EA-4709-AC6E-DF1F25124F69",
+      "style" : {
+        "cornerRadius" : 0,
+        "dash" : "solid",
+        "lineWidth" : 8,
+        "opacity" : 1,
+        "shadow" : false,
+        "strokeColor" : "#FF3B30FF"
+      },
+      "type" : "shape"
+    },
+    {
+      "content" : {
+        "end" : {
+          "binding" : {
+            "anchor" : [
+              0.3,
+              0.45
+            ],
+            "itemID" : "0FD8D1B4-A075-4438-8ECF-CD4181456DC1"
+          },
+          "point" : [
+            983,
+            270
+          ]
+        },
+        "endHead" : "arrow",
+        "start" : {
+          "binding" : {
+            "anchor" : [
+              0.36,
+              0.3
+            ],
+            "itemID" : "808E23CA-94EA-4709-AC6E-DF1F25124F69"
+          },
+          "point" : [
+            288,
+            180
+          ]
+        },
+        "startHead" : "none"
+      },
+      "id" : "0081D8B2-FD3A-4038-A9F6-8606C19AA318",
+      "parentID" : "808E23CA-94EA-4709-AC6E-DF1F25124F69",
+      "style" : {
+        "cornerRadius" : 0,
+        "dash" : "solid",
+        "lineWidth" : 8,
+        "opacity" : 1,
+        "shadow" : false,
+        "strokeColor" : "#FF3B30FF"
+      },
+      "type" : "line"
+    },
+    {
+      "content" : {
+        "end" : {
+          "binding" : {
+            "anchor" : [
+              0.2,
+              0.4
+            ],
+            "itemID" : "F36BDD3B-C842-4E2C-A839-F0857E5E108F"
+          },
+          "point" : [
+            1666,
+            240
+          ]
+        },
+        "endHead" : "arrow",
+        "start" : {
+          "binding" : {
+            "anchor" : [
+              0.75,
+              0.7
+            ],
+            "itemID" : "0FD8D1B4-A075-4438-8ECF-CD4181456DC1"
+          },
+          "point" : [
+            1185.5,
+            420
+          ]
+        },
+        "startHead" : "none"
+      },
+      "id" : "61593341-C3C5-4E02-BBDA-77A3A8B7D565",
+      "parentID" : "F36BDD3B-C842-4E2C-A839-F0857E5E108F",
+      "style" : {
+        "cornerRadius" : 0,
+        "dash" : "solid",
+        "lineWidth" : 8,
+        "opacity" : 1,
+        "shadow" : false,
+        "strokeColor" : "#007AFFFF"
+      },
+      "type" : "line"
+    },
+    {
+      "content" : {
+        "alignment" : "left",
+        "box" : {
+          "frame" : [
+            [
+              700,
+              -150
+            ],
+            [
+              380,
+              167
+            ]
+          ],
+          "rotation" : 0
+        },
+        "color" : "#1C1C1EFF",
+        "fixedWidth" : 380,
+        "font" : {
+          "bold" : false,
+          "family" : "hiraginoSans",
+          "italic" : false,
+          "size" : 30
+        },
+        "padding" : 16,
+        "text" : "Same view, 2 weeks later\n2週間後の同じ景色"
+      },
+      "id" : "E9B05490-9DF3-4AAC-B301-53EC152D084B",
+      "style" : {
+        "cornerRadius" : 6,
+        "dash" : "solid",
+        "fillColor" : "#FFF3A6FF",
+        "lineWidth" : 2,
+        "opacity" : 1,
+        "shadow" : true,
+        "strokeColor" : "#E0B300FF"
+      },
+      "type" : "text"
+    },
+    {
+      "content" : {
+        "box" : {
+          "frame" : [
+            [
+              1406,
+              360
+            ],
+            [
+              520,
+              80
+            ]
+          ],
+          "rotation" : 0
+        },
+        "kind" : "highlightBox",
+        "lockAspect" : false
+      },
+      "id" : "949B93E5-EDEC-428D-96B1-1E0B981E87EE",
+      "parentID" : "F36BDD3B-C842-4E2C-A839-F0857E5E108F",
+      "style" : {
+        "cornerRadius" : 4,
+        "dash" : "solid",
+        "fillColor" : "#FFE60073",
+        "lineWidth" : 0,
+        "opacity" : 1,
+        "shadow" : false
+      },
+      "type" : "shape"
+    },
+    {
+      "content" : {
+        "alignment" : "left",
+        "box" : {
+          "frame" : [
+            [
+              1986,
+              40
+            ],
+            [
+              277,
+              69
+            ]
+          ],
+          "rotation" : 0
+        },
+        "color" : "#FF3B30FF",
+        "font" : {
+          "bold" : true,
+          "family" : "system",
+          "italic" : false,
+          "size" : 44
+        },
+        "padding" : 8,
+        "text" : "View? \/ 山頂?"
+      },
+      "id" : "0B87F45A-3178-40D1-A7B3-8E9450F42CA5",
+      "parentID" : "F36BDD3B-C842-4E2C-A839-F0857E5E108F",
+      "style" : {
+        "cornerRadius" : 0,
+        "dash" : "solid",
+        "lineWidth" : 6,
+        "opacity" : 1,
+        "shadow" : false
+      },
+      "type" : "text"
+    }
+  ],
+  "kind" : "board",
+  "schemaVersion" : 1
+}

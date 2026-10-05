@@ -1,0 +1,1 @@
+error: DecodingError.dataCorrupted: Data was corrupted. Path: backgroundColor. Debug description: Invalid color red

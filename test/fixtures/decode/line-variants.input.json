@@ -1,0 +1,173 @@
+{
+  "schemaVersion": 1,
+  "id": "11111111-1111-4111-8111-111111111111",
+  "kind": "board",
+  "items": [
+    {
+      "id": "AAAAAAAA-0000-4000-8000-000000000001",
+      "type": "line",
+      "content": {
+        "start": {
+          "point": [
+            0,
+            0
+          ]
+        },
+        "end": {
+          "point": [
+            50,
+            60
+          ]
+        }
+      }
+    },
+    {
+      "id": "AAAAAAAA-0000-4000-8000-000000000002",
+      "type": "line",
+      "content": {
+        "start": {
+          "point": [
+            0,
+            0
+          ]
+        },
+        "end": {
+          "point": [
+            50,
+            60
+          ]
+        },
+        "kind": "polyline",
+        "waypoints": [
+          [
+            10,
+            10
+          ],
+          [
+            20,
+            0
+          ]
+        ],
+        "startHead": "arrow",
+        "endHead": "arrow"
+      }
+    },
+    {
+      "id": "AAAAAAAA-0000-4000-8000-000000000003",
+      "type": "line",
+      "content": {
+        "start": {
+          "point": [
+            0,
+            0
+          ]
+        },
+        "end": {
+          "point": [
+            50,
+            60
+          ]
+        },
+        "kind": "polyline",
+        "waypoints": [
+          [
+            10,
+            10
+          ],
+          [
+            20,
+            0
+          ]
+        ],
+        "isClosed": true
+      }
+    },
+    {
+      "id": "AAAAAAAA-0000-4000-8000-000000000004",
+      "type": "line",
+      "content": {
+        "start": {
+          "point": [
+            0,
+            0
+          ]
+        },
+        "end": {
+          "point": [
+            50,
+            60
+          ]
+        },
+        "kind": "curve"
+      }
+    },
+    {
+      "id": "AAAAAAAA-0000-4000-8000-000000000005",
+      "type": "line",
+      "content": {
+        "start": {
+          "point": [
+            0,
+            0
+          ]
+        },
+        "end": {
+          "point": [
+            50,
+            60
+          ]
+        },
+        "kind": "curve",
+        "waypoints": [],
+        "isClosed": true
+      }
+    },
+    {
+      "id": "AAAAAAAA-0000-4000-8000-000000000006",
+      "type": "line",
+      "content": {
+        "start": {
+          "point": [
+            0,
+            0
+          ]
+        },
+        "end": {
+          "point": [
+            50,
+            60
+          ]
+        },
+        "kind": "straight",
+        "waypoints": [
+          [
+            5,
+            5
+          ]
+        ],
+        "isClosed": true
+      }
+    },
+    {
+      "id": "AAAAAAAA-0000-4000-8000-000000000007",
+      "type": "line",
+      "content": {
+        "start": {
+          "point": [
+            0,
+            0
+          ]
+        },
+        "end": {
+          "point": [
+            50,
+            60
+          ]
+        },
+        "kind": "polyline",
+        "waypoints": null,
+        "isClosed": null
+      }
+    }
+  ]
+}

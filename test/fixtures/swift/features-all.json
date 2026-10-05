@@ -1,0 +1,74 @@
+{
+  "actions" : {
+    "enabled" : true,
+    "items" : {
+      "bringToFront" : true,
+      "delete" : true,
+      "duplicate" : true,
+      "editText" : true,
+      "lock" : true,
+      "sendToBack" : true
+    }
+  },
+  "board" : {
+    "enabled" : true,
+    "items" : {
+      "arrange" : true,
+      "camera" : true,
+      "photoLibrary" : true
+    }
+  },
+  "draw" : {
+    "enabled" : true,
+    "items" : {
+      "highlighter" : true,
+      "pen" : true
+    }
+  },
+  "eraser" : {
+    "enabled" : true,
+    "items" : {
+      "eraser" : true
+    }
+  },
+  "lines" : {
+    "enabled" : true,
+    "items" : {
+      "arrow" : true,
+      "curve" : true,
+      "polyline" : true
+    }
+  },
+  "shapes" : {
+    "enabled" : true,
+    "items" : {
+      "circle" : true,
+      "diamond" : true,
+      "highlightBox" : true,
+      "oval" : true,
+      "pentagon" : true,
+      "rectangle" : true,
+      "roundedRectangle" : true,
+      "speechBubble" : true,
+      "square" : true,
+      "star" : true,
+      "triangle" : true
+    }
+  },
+  "style" : {
+    "enabled" : true,
+    "items" : {
+      "borderColor" : true,
+      "fillColor" : true,
+      "shapeStyle" : true,
+      "textStyle" : true
+    }
+  },
+  "text" : {
+    "enabled" : true,
+    "items" : {
+      "note" : true,
+      "text" : true
+    }
+  }
+}

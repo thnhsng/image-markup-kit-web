@@ -1,0 +1,185 @@
+{
+  "backgroundColor" : "#FFFFFFFF",
+  "backgroundItemID" : "22222222-2222-2222-2222-222222222222",
+  "id" : "11111111-1111-1111-1111-111111111111",
+  "items" : [
+    {
+      "content" : {
+        "assetID" : "photo.jpg",
+        "box" : {
+          "frame" : [
+            [
+              0,
+              0
+            ],
+            [
+              1024,
+              768
+            ]
+          ],
+          "rotation" : 0
+        },
+        "pixelSize" : [
+          4032,
+          3024
+        ]
+      },
+      "id" : "22222222-2222-2222-2222-222222222222",
+      "isLocked" : true,
+      "style" : {
+        "cornerRadius" : 0,
+        "dash" : "solid",
+        "lineWidth" : 6,
+        "opacity" : 1,
+        "shadow" : false
+      },
+      "type" : "image"
+    },
+    {
+      "content" : {
+        "box" : {
+          "frame" : [
+            [
+              100,
+              100
+            ],
+            [
+              200,
+              120
+            ]
+          ],
+          "rotation" : 0.3
+        },
+        "kind" : "ellipse",
+        "lockAspect" : false
+      },
+      "id" : "33333333-3333-3333-3333-333333333333",
+      "style" : {
+        "cornerRadius" : 0,
+        "dash" : "dashed",
+        "fillColor" : "#FFCC004D",
+        "lineWidth" : 6,
+        "opacity" : 1,
+        "shadow" : false,
+        "strokeColor" : "#FF3B30FF"
+      },
+      "type" : "shape"
+    },
+    {
+      "content" : {
+        "alignment" : "left",
+        "box" : {
+          "frame" : [
+            [
+              300,
+              300
+            ],
+            [
+              160,
+              52
+            ]
+          ],
+          "rotation" : 0
+        },
+        "color" : "#FF3B30FF",
+        "font" : {
+          "bold" : true,
+          "family" : "hiraginoSans",
+          "italic" : false,
+          "size" : 30
+        },
+        "padding" : 8,
+        "text" : "山頂"
+      },
+      "id" : "44444444-4444-4444-4444-444444444444",
+      "style" : {
+        "cornerRadius" : 0,
+        "dash" : "solid",
+        "lineWidth" : 6,
+        "opacity" : 1,
+        "shadow" : false
+      },
+      "type" : "text"
+    },
+    {
+      "content" : {
+        "box" : {
+          "frame" : [
+            [
+              50,
+              500
+            ],
+            [
+              200,
+              100
+            ]
+          ],
+          "rotation" : 0
+        },
+        "isHighlighter" : true,
+        "points" : [
+          [
+            0,
+            0
+          ],
+          [
+            0.5,
+            1
+          ],
+          [
+            1,
+            0.5
+          ]
+        ]
+      },
+      "id" : "55555555-5555-5555-5555-555555555555",
+      "style" : {
+        "cornerRadius" : 0,
+        "dash" : "solid",
+        "lineWidth" : 24,
+        "opacity" : 0.45,
+        "shadow" : false,
+        "strokeColor" : "#FFE600FF"
+      },
+      "type" : "stroke"
+    },
+    {
+      "content" : {
+        "end" : {
+          "point" : [
+            400,
+            400
+          ]
+        },
+        "endHead" : "arrow",
+        "start" : {
+          "binding" : {
+            "anchor" : [
+              0.5,
+              0.5
+            ],
+            "itemID" : "33333333-3333-3333-3333-333333333333"
+          },
+          "point" : [
+            10,
+            10
+          ]
+        },
+        "startHead" : "none"
+      },
+      "id" : "66666666-6666-6666-6666-666666666666",
+      "parentID" : "22222222-2222-2222-2222-222222222222",
+      "style" : {
+        "cornerRadius" : 0,
+        "dash" : "solid",
+        "lineWidth" : 6,
+        "opacity" : 1,
+        "shadow" : false,
+        "strokeColor" : "#FF3B30FF"
+      },
+      "type" : "line"
+    }
+  ],
+  "kind" : "image",
+  "schemaVersion" : 1
+}

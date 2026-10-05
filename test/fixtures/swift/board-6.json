@@ -1,0 +1,323 @@
+{
+  "backgroundColor" : "#FFFFFFFF",
+  "id" : "0E81BCDF-5012-45E4-A1C7-E3E276A38DFF",
+  "items" : [
+    {
+      "content" : {
+        "assetID" : "sample-a.jpg",
+        "box" : {
+          "frame" : [
+            [
+              -15.092269326683322,
+              -937.5317705735661
+            ],
+            [
+              1179.7214962593516,
+              884.7911221945137
+            ]
+          ],
+          "rotation" : 0
+        },
+        "pixelSize" : [
+          4032,
+          3024
+        ]
+      },
+      "id" : "EF6CA0A9-7A68-4E45-8F94-72117E54694B",
+      "style" : {
+        "cornerRadius" : 0,
+        "dash" : "solid",
+        "lineWidth" : 6,
+        "opacity" : 1,
+        "shadow" : false
+      },
+      "type" : "image"
+    },
+    {
+      "content" : {
+        "assetID" : "sample-b.jpg",
+        "box" : {
+          "frame" : [
+            [
+              593.3179551122196,
+              713.1097256857856
+            ],
+            [
+              450,
+              600
+            ]
+          ],
+          "rotation" : 0
+        },
+        "pixelSize" : [
+          3024,
+          4032
+        ]
+      },
+      "id" : "AA3E0436-549A-4003-9286-3A45C62A20D5",
+      "style" : {
+        "cornerRadius" : 0,
+        "dash" : "solid",
+        "lineWidth" : 6,
+        "opacity" : 1,
+        "shadow" : false
+      },
+      "type" : "image"
+    },
+    {
+      "content" : {
+        "assetID" : "sample-c.jpg",
+        "box" : {
+          "frame" : [
+            [
+              1310.1558603491271,
+              -513.1371571072319
+            ],
+            [
+              1600,
+              600
+            ]
+          ],
+          "rotation" : 0
+        },
+        "pixelSize" : [
+          4000,
+          1500
+        ]
+      },
+      "id" : "8215E195-153F-4615-8BBE-23833C06CB87",
+      "style" : {
+        "cornerRadius" : 0,
+        "dash" : "solid",
+        "lineWidth" : 6,
+        "opacity" : 1,
+        "shadow" : false
+      },
+      "type" : "image"
+    },
+    {
+      "content" : {
+        "box" : {
+          "frame" : [
+            [
+              147.11943640897755,
+              -878.5456957605985
+            ],
+            [
+              294.9303740648379,
+              412.9025236907731
+            ]
+          ],
+          "rotation" : 0
+        },
+        "kind" : "ellipse",
+        "lockAspect" : false
+      },
+      "id" : "B8B3A908-C0A4-49CF-945F-B32D360D4318",
+      "parentID" : "EF6CA0A9-7A68-4E45-8F94-72117E54694B",
+      "style" : {
+        "cornerRadius" : 0,
+        "dash" : "solid",
+        "lineWidth" : 8,
+        "opacity" : 1,
+        "shadow" : false,
+        "strokeColor" : "#FF3B30FF"
+      },
+      "type" : "shape"
+    },
+    {
+      "content" : {
+        "end" : {
+          "binding" : {
+            "anchor" : [
+              0.3,
+              0.45
+            ],
+            "itemID" : "AA3E0436-549A-4003-9286-3A45C62A20D5"
+          },
+          "point" : [
+            728.3179551122196,
+            983.1097256857856
+          ]
+        },
+        "endHead" : "arrow",
+        "start" : {
+          "binding" : {
+            "anchor" : [
+              0.36,
+              0.3
+            ],
+            "itemID" : "EF6CA0A9-7A68-4E45-8F94-72117E54694B"
+          },
+          "point" : [
+            409.60746932668326,
+            -672.094433915212
+          ]
+        },
+        "startHead" : "none"
+      },
+      "id" : "B4E4DCD3-EAA5-4093-9608-72F7CF54630C",
+      "parentID" : "EF6CA0A9-7A68-4E45-8F94-72117E54694B",
+      "style" : {
+        "cornerRadius" : 0,
+        "dash" : "solid",
+        "lineWidth" : 8,
+        "opacity" : 1,
+        "shadow" : false,
+        "strokeColor" : "#FF3B30FF"
+      },
+      "type" : "line"
+    },
+    {
+      "content" : {
+        "end" : {
+          "binding" : {
+            "anchor" : [
+              0.2,
+              0.4
+            ],
+            "itemID" : "8215E195-153F-4615-8BBE-23833C06CB87"
+          },
+          "point" : [
+            1630.1558603491271,
+            -273.1371571072319
+          ]
+        },
+        "endHead" : "arrow",
+        "start" : {
+          "binding" : {
+            "anchor" : [
+              0.75,
+              0.7
+            ],
+            "itemID" : "AA3E0436-549A-4003-9286-3A45C62A20D5"
+          },
+          "point" : [
+            930.8179551122196,
+            1133.1097256857856
+          ]
+        },
+        "startHead" : "none"
+      },
+      "id" : "21478517-01FC-4054-A5A7-144CB7D18D51",
+      "parentID" : "8215E195-153F-4615-8BBE-23833C06CB87",
+      "style" : {
+        "cornerRadius" : 0,
+        "dash" : "solid",
+        "lineWidth" : 8,
+        "opacity" : 1,
+        "shadow" : false,
+        "strokeColor" : "#007AFFFF"
+      },
+      "type" : "line"
+    },
+    {
+      "content" : {
+        "alignment" : "left",
+        "box" : {
+          "frame" : [
+            [
+              741.5037406483791,
+              149.95885286783044
+            ],
+            [
+              380,
+              167
+            ]
+          ],
+          "rotation" : 0
+        },
+        "color" : "#1C1C1EFF",
+        "fixedWidth" : 380,
+        "font" : {
+          "bold" : false,
+          "family" : "hiraginoSans",
+          "italic" : false,
+          "size" : 30
+        },
+        "padding" : 16,
+        "text" : "Same view, 2 weeks later\n2週間後の同じ景色"
+      },
+      "id" : "234EBBCA-CF7D-4541-8D4D-76E70FC4378F",
+      "style" : {
+        "cornerRadius" : 6,
+        "dash" : "solid",
+        "fillColor" : "#FFF3A6FF",
+        "lineWidth" : 2,
+        "opacity" : 1,
+        "shadow" : true,
+        "strokeColor" : "#E0B300FF"
+      },
+      "type" : "text"
+    },
+    {
+      "content" : {
+        "box" : {
+          "frame" : [
+            [
+              1370.1558603491271,
+              -153.13715710723193
+            ],
+            [
+              520,
+              80
+            ]
+          ],
+          "rotation" : 0
+        },
+        "kind" : "highlightBox",
+        "lockAspect" : false
+      },
+      "id" : "771E161E-4460-4A63-97D8-558DA950929C",
+      "parentID" : "8215E195-153F-4615-8BBE-23833C06CB87",
+      "style" : {
+        "cornerRadius" : 4,
+        "dash" : "solid",
+        "fillColor" : "#FFE60073",
+        "lineWidth" : 0,
+        "opacity" : 1,
+        "shadow" : false
+      },
+      "type" : "shape"
+    },
+    {
+      "content" : {
+        "alignment" : "left",
+        "box" : {
+          "frame" : [
+            [
+              1950.1558603491271,
+              -473.1371571072319
+            ],
+            [
+              277,
+              69
+            ]
+          ],
+          "rotation" : 0
+        },
+        "color" : "#FF3B30FF",
+        "font" : {
+          "bold" : true,
+          "family" : "system",
+          "italic" : false,
+          "size" : 44
+        },
+        "padding" : 8,
+        "text" : "View? \/ 山頂?"
+      },
+      "id" : "FBDA74C5-F64C-41F7-9F41-E9529D14DF79",
+      "parentID" : "8215E195-153F-4615-8BBE-23833C06CB87",
+      "style" : {
+        "cornerRadius" : 0,
+        "dash" : "solid",
+        "lineWidth" : 6,
+        "opacity" : 1,
+        "shadow" : false
+      },
+      "type" : "text"
+    }
+  ],
+  "kind" : "board",
+  "schemaVersion" : 1
+}

@@ -1,0 +1,99 @@
+{
+  "backgroundColor" : "#FFFFFFFF",
+  "id" : "11111111-1111-4111-8111-111111111111",
+  "items" : [
+    {
+      "content" : {
+        "assetID" : "photo.jpg",
+        "box" : {
+          "frame" : [
+            [
+              0,
+              0
+            ],
+            [
+              800,
+              600
+            ]
+          ],
+          "rotation" : 0
+        },
+        "pixelSize" : [
+          4000,
+          3000
+        ]
+      },
+      "id" : "AAAAAAAA-0000-4000-8000-000000000009",
+      "style" : {
+        "cornerRadius" : 0,
+        "dash" : "solid",
+        "lineWidth" : 6,
+        "opacity" : 1,
+        "shadow" : false,
+        "strokeColor" : "#FF3B30FF"
+      },
+      "type" : "image"
+    },
+    {
+      "content" : {
+        "box" : {
+          "frame" : [
+            [
+              10,
+              20
+            ],
+            [
+              100,
+              50
+            ]
+          ],
+          "rotation" : 0
+        },
+        "kind" : "rectangle",
+        "lockAspect" : false
+      },
+      "id" : "AAAAAAAA-0000-4000-8000-000000000002",
+      "style" : {
+        "cornerRadius" : 0,
+        "dash" : "solid",
+        "lineWidth" : 6,
+        "opacity" : 1,
+        "shadow" : false,
+        "strokeColor" : "#FF3B30FF"
+      },
+      "type" : "shape"
+    },
+    {
+      "content" : {
+        "box" : {
+          "frame" : [
+            [
+              10,
+              20
+            ],
+            [
+              100,
+              50
+            ]
+          ],
+          "rotation" : 0
+        },
+        "kind" : "rectangle",
+        "lockAspect" : false
+      },
+      "id" : "AAAAAAAA-0000-4000-8000-000000000003",
+      "parentID" : "AAAAAAAA-0000-4000-8000-000000000009",
+      "style" : {
+        "cornerRadius" : 0,
+        "dash" : "solid",
+        "lineWidth" : 6,
+        "opacity" : 1,
+        "shadow" : false,
+        "strokeColor" : "#FF3B30FF"
+      },
+      "type" : "shape"
+    }
+  ],
+  "kind" : "board",
+  "schemaVersion" : 1
+}

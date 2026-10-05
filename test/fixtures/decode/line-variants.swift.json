@@ -1,0 +1,240 @@
+{
+  "backgroundColor" : "#FFFFFFFF",
+  "id" : "11111111-1111-4111-8111-111111111111",
+  "items" : [
+    {
+      "content" : {
+        "end" : {
+          "point" : [
+            50,
+            60
+          ]
+        },
+        "endHead" : "arrow",
+        "start" : {
+          "point" : [
+            0,
+            0
+          ]
+        },
+        "startHead" : "none"
+      },
+      "id" : "AAAAAAAA-0000-4000-8000-000000000001",
+      "style" : {
+        "cornerRadius" : 0,
+        "dash" : "solid",
+        "lineWidth" : 6,
+        "opacity" : 1,
+        "shadow" : false,
+        "strokeColor" : "#FF3B30FF"
+      },
+      "type" : "line"
+    },
+    {
+      "content" : {
+        "end" : {
+          "point" : [
+            50,
+            60
+          ]
+        },
+        "endHead" : "arrow",
+        "kind" : "polyline",
+        "start" : {
+          "point" : [
+            0,
+            0
+          ]
+        },
+        "startHead" : "arrow",
+        "waypoints" : [
+          [
+            10,
+            10
+          ],
+          [
+            20,
+            0
+          ]
+        ]
+      },
+      "id" : "AAAAAAAA-0000-4000-8000-000000000002",
+      "style" : {
+        "cornerRadius" : 0,
+        "dash" : "solid",
+        "lineWidth" : 6,
+        "opacity" : 1,
+        "shadow" : false,
+        "strokeColor" : "#FF3B30FF"
+      },
+      "type" : "line"
+    },
+    {
+      "content" : {
+        "end" : {
+          "point" : [
+            50,
+            60
+          ]
+        },
+        "endHead" : "arrow",
+        "isClosed" : true,
+        "kind" : "polyline",
+        "start" : {
+          "point" : [
+            0,
+            0
+          ]
+        },
+        "startHead" : "none",
+        "waypoints" : [
+          [
+            10,
+            10
+          ],
+          [
+            20,
+            0
+          ]
+        ]
+      },
+      "id" : "AAAAAAAA-0000-4000-8000-000000000003",
+      "style" : {
+        "cornerRadius" : 0,
+        "dash" : "solid",
+        "lineWidth" : 6,
+        "opacity" : 1,
+        "shadow" : false,
+        "strokeColor" : "#FF3B30FF"
+      },
+      "type" : "line"
+    },
+    {
+      "content" : {
+        "end" : {
+          "point" : [
+            50,
+            60
+          ]
+        },
+        "endHead" : "arrow",
+        "kind" : "curve",
+        "start" : {
+          "point" : [
+            0,
+            0
+          ]
+        },
+        "startHead" : "none",
+        "waypoints" : [
+
+        ]
+      },
+      "id" : "AAAAAAAA-0000-4000-8000-000000000004",
+      "style" : {
+        "cornerRadius" : 0,
+        "dash" : "solid",
+        "lineWidth" : 6,
+        "opacity" : 1,
+        "shadow" : false,
+        "strokeColor" : "#FF3B30FF"
+      },
+      "type" : "line"
+    },
+    {
+      "content" : {
+        "end" : {
+          "point" : [
+            50,
+            60
+          ]
+        },
+        "endHead" : "arrow",
+        "isClosed" : true,
+        "kind" : "curve",
+        "start" : {
+          "point" : [
+            0,
+            0
+          ]
+        },
+        "startHead" : "none",
+        "waypoints" : [
+
+        ]
+      },
+      "id" : "AAAAAAAA-0000-4000-8000-000000000005",
+      "style" : {
+        "cornerRadius" : 0,
+        "dash" : "solid",
+        "lineWidth" : 6,
+        "opacity" : 1,
+        "shadow" : false,
+        "strokeColor" : "#FF3B30FF"
+      },
+      "type" : "line"
+    },
+    {
+      "content" : {
+        "end" : {
+          "point" : [
+            50,
+            60
+          ]
+        },
+        "endHead" : "arrow",
+        "start" : {
+          "point" : [
+            0,
+            0
+          ]
+        },
+        "startHead" : "none"
+      },
+      "id" : "AAAAAAAA-0000-4000-8000-000000000006",
+      "style" : {
+        "cornerRadius" : 0,
+        "dash" : "solid",
+        "lineWidth" : 6,
+        "opacity" : 1,
+        "shadow" : false,
+        "strokeColor" : "#FF3B30FF"
+      },
+      "type" : "line"
+    },
+    {
+      "content" : {
+        "end" : {
+          "point" : [
+            50,
+            60
+          ]
+        },
+        "endHead" : "arrow",
+        "kind" : "polyline",
+        "start" : {
+          "point" : [
+            0,
+            0
+          ]
+        },
+        "startHead" : "none",
+        "waypoints" : [
+
+        ]
+      },
+      "id" : "AAAAAAAA-0000-4000-8000-000000000007",
+      "style" : {
+        "cornerRadius" : 0,
+        "dash" : "solid",
+        "lineWidth" : 6,
+        "opacity" : 1,
+        "shadow" : false,
+        "strokeColor" : "#FF3B30FF"
+      },
+      "type" : "line"
+    }
+  ],
+  "kind" : "board",
+  "schemaVersion" : 1
+}

@@ -1,0 +1,123 @@
+{
+  "schemaVersion": 1,
+  "id": "11111111-1111-4111-8111-111111111111",
+  "kind": "board",
+  "items": [
+    {
+      "id": "AAAAAAAA-0000-4000-8000-000000000001",
+      "type": "shape",
+      "content": {
+        "kind": "rectangle",
+        "box": {
+          "frame": [
+            [
+              10,
+              20
+            ],
+            [
+              100,
+              50
+            ]
+          ]
+        }
+      },
+      "style": {
+        "dash": "wavy"
+      }
+    },
+    {
+      "id": "AAAAAAAA-0000-4000-8000-000000000002",
+      "type": "text",
+      "content": {
+        "box": {
+          "frame": [
+            [
+              10,
+              20
+            ],
+            [
+              100,
+              50
+            ]
+          ]
+        },
+        "text": "Best view!",
+        "alignment": "justify",
+        "font": {
+          "family": "comic",
+          "size": 20
+        }
+      }
+    },
+    {
+      "id": "AAAAAAAA-0000-4000-8000-000000000003",
+      "type": "line",
+      "content": {
+        "start": {
+          "point": [
+            0,
+            0
+          ]
+        },
+        "end": {
+          "point": [
+            50,
+            60
+          ]
+        },
+        "startHead": "circle",
+        "endHead": "diamond",
+        "kind": "spline",
+        "waypoints": [
+          [
+            1
+          ]
+        ],
+        "isClosed": true
+      }
+    },
+    {
+      "id": "AAAAAAAA-0000-4000-8000-000000000004",
+      "type": "line",
+      "content": {
+        "start": {
+          "point": [
+            0,
+            0
+          ]
+        },
+        "end": {
+          "point": [
+            50,
+            60
+          ]
+        },
+        "startHead": null,
+        "endHead": null,
+        "kind": null
+      }
+    },
+    {
+      "id": "AAAAAAAA-0000-4000-8000-000000000005",
+      "type": "text",
+      "content": {
+        "box": {
+          "frame": [
+            [
+              10,
+              20
+            ],
+            [
+              100,
+              50
+            ]
+          ]
+        },
+        "alignment": null,
+        "font": {
+          "family": null
+        }
+      }
+    }
+  ]
+}

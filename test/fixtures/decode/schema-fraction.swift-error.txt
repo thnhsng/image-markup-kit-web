@@ -1,0 +1,1 @@
+error: DecodingError.dataCorrupted: Data was corrupted. Debug description: The given data was not valid JSON.. Underlying error: Error Domain=NSCocoaErrorDomain Code=3840 "Number 1.5 is not representable in Swift." UserInfo={NSDebugDescription=Number 1.5 is not representable in Swift.}

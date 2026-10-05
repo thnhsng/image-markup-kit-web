@@ -1,0 +1,318 @@
+{
+  "backgroundColor" : "#FFFFFFFF",
+  "id" : "0EBBE564-A6C4-4E43-83BB-A0A258FBD469",
+  "items" : [
+    {
+      "content" : {
+        "assetID" : "47CA4F18-ABD2-4F9D-853F-0E870FBCB7FE.jpg",
+        "box" : {
+          "frame" : [
+            [
+              0,
+              0
+            ],
+            [
+              800,
+              600
+            ]
+          ],
+          "rotation" : 0
+        },
+        "pixelSize" : [
+          4032,
+          3024
+        ]
+      },
+      "id" : "7682D3AD-1D82-412C-A58C-B693F09CECAF",
+      "style" : {
+        "cornerRadius" : 0,
+        "dash" : "solid",
+        "lineWidth" : 6,
+        "opacity" : 1,
+        "shadow" : false
+      },
+      "type" : "image"
+    },
+    {
+      "content" : {
+        "assetID" : "72194C53-4775-414F-AE1C-1F2DA61590AD.jpg",
+        "box" : {
+          "frame" : [
+            [
+              848,
+              0
+            ],
+            [
+              800,
+              600
+            ]
+          ],
+          "rotation" : 0
+        },
+        "pixelSize" : [
+          4032,
+          3024
+        ]
+      },
+      "id" : "30252267-91CA-471A-9486-0BA63742C00E",
+      "style" : {
+        "cornerRadius" : 0,
+        "dash" : "solid",
+        "lineWidth" : 6,
+        "opacity" : 1,
+        "shadow" : false
+      },
+      "type" : "image"
+    },
+    {
+      "content" : {
+        "assetID" : "690E17F0-7F2E-4858-B617-23CD0706E611.jpg",
+        "box" : {
+          "frame" : [
+            [
+              1696,
+              0
+            ],
+            [
+              800,
+              600
+            ]
+          ],
+          "rotation" : 0
+        },
+        "pixelSize" : [
+          4032,
+          3024
+        ]
+      },
+      "id" : "CA34711C-6FC4-456B-B164-9DA140547949",
+      "style" : {
+        "cornerRadius" : 0,
+        "dash" : "solid",
+        "lineWidth" : 6,
+        "opacity" : 1,
+        "shadow" : false
+      },
+      "type" : "image"
+    },
+    {
+      "content" : {
+        "assetID" : "0F5DDCC4-D0B3-4A17-A0ED-7A1B6DCD7461.jpg",
+        "box" : {
+          "frame" : [
+            [
+              0,
+              648
+            ],
+            [
+              800,
+              600
+            ]
+          ],
+          "rotation" : 0
+        },
+        "pixelSize" : [
+          4032,
+          3024
+        ]
+      },
+      "id" : "F9F1B2A8-70C9-4F05-A900-4548EB4F6CFB",
+      "style" : {
+        "cornerRadius" : 0,
+        "dash" : "solid",
+        "lineWidth" : 6,
+        "opacity" : 1,
+        "shadow" : false
+      },
+      "type" : "image"
+    },
+    {
+      "content" : {
+        "assetID" : "0FB18203-4256-4165-BC1C-26E469D39DA4.jpg",
+        "box" : {
+          "frame" : [
+            [
+              848,
+              648
+            ],
+            [
+              800,
+              600
+            ]
+          ],
+          "rotation" : 0
+        },
+        "pixelSize" : [
+          4032,
+          3024
+        ]
+      },
+      "id" : "8BDF426C-C744-4B1D-9D1F-3AC5E29590D1",
+      "style" : {
+        "cornerRadius" : 0,
+        "dash" : "solid",
+        "lineWidth" : 6,
+        "opacity" : 1,
+        "shadow" : false
+      },
+      "type" : "image"
+    },
+    {
+      "content" : {
+        "assetID" : "5E744E6E-F535-477E-8E84-2FF9C82E6D6D.jpg",
+        "box" : {
+          "frame" : [
+            [
+              1696,
+              648
+            ],
+            [
+              800,
+              600
+            ]
+          ],
+          "rotation" : 0
+        },
+        "pixelSize" : [
+          4032,
+          3024
+        ]
+      },
+      "id" : "98F754B3-4AC0-46FC-9795-97F2EFFEA115",
+      "style" : {
+        "cornerRadius" : 0,
+        "dash" : "solid",
+        "lineWidth" : 6,
+        "opacity" : 1,
+        "shadow" : false
+      },
+      "type" : "image"
+    },
+    {
+      "content" : {
+        "assetID" : "31C63DB9-F32B-4539-B7B3-99DCFD9EB21F.jpg",
+        "box" : {
+          "frame" : [
+            [
+              0,
+              1296
+            ],
+            [
+              800,
+              600
+            ]
+          ],
+          "rotation" : 0
+        },
+        "pixelSize" : [
+          4032,
+          3024
+        ]
+      },
+      "id" : "8CFD3E90-C124-4CDD-88A4-DADF84DA8EE1",
+      "style" : {
+        "cornerRadius" : 0,
+        "dash" : "solid",
+        "lineWidth" : 6,
+        "opacity" : 1,
+        "shadow" : false
+      },
+      "type" : "image"
+    },
+    {
+      "content" : {
+        "assetID" : "98E261A6-0557-405B-88F5-A51D736EE044.jpg",
+        "box" : {
+          "frame" : [
+            [
+              848,
+              1296
+            ],
+            [
+              800,
+              600
+            ]
+          ],
+          "rotation" : 0
+        },
+        "pixelSize" : [
+          4032,
+          3024
+        ]
+      },
+      "id" : "AD52A307-91F4-4104-A07B-75047B89F9E3",
+      "style" : {
+        "cornerRadius" : 0,
+        "dash" : "solid",
+        "lineWidth" : 6,
+        "opacity" : 1,
+        "shadow" : false
+      },
+      "type" : "image"
+    },
+    {
+      "content" : {
+        "assetID" : "90F025C5-310B-4910-9B00-1708DDA1C841.jpg",
+        "box" : {
+          "frame" : [
+            [
+              1696,
+              1296
+            ],
+            [
+              800,
+              600
+            ]
+          ],
+          "rotation" : 0
+        },
+        "pixelSize" : [
+          4032,
+          3024
+        ]
+      },
+      "id" : "8A0BAC24-2423-451C-922C-AF006372592C",
+      "style" : {
+        "cornerRadius" : 0,
+        "dash" : "solid",
+        "lineWidth" : 6,
+        "opacity" : 1,
+        "shadow" : false
+      },
+      "type" : "image"
+    },
+    {
+      "content" : {
+        "assetID" : "DF1E1D0F-F052-4D6C-A204-FE8697C1F0D9.jpg",
+        "box" : {
+          "frame" : [
+            [
+              0,
+              1944
+            ],
+            [
+              800,
+              600
+            ]
+          ],
+          "rotation" : 0
+        },
+        "pixelSize" : [
+          4032,
+          3024
+        ]
+      },
+      "id" : "020C9EDE-1945-4E06-A1C6-61CFF62C4359",
+      "style" : {
+        "cornerRadius" : 0,
+        "dash" : "solid",
+        "lineWidth" : 6,
+        "opacity" : 1,
+        "shadow" : false
+      },
+      "type" : "image"
+    }
+  ],
+  "kind" : "board",
+  "schemaVersion" : 1
+}
