@@ -84,6 +84,24 @@ test('lays out a board, adds a photo and arranges it', async ({ page }) => {
   await expect(page.getByTestId('result')).toBeVisible();
 });
 
+test('opens your photo to annotate, or as a board to add more to', async ({ page }) => {
+  await page.goto('./');
+  await page.getByTestId('open.photoInput').setInputFiles('example/public/samples/waterfall.jpg');
+  await waitForPhotos(page, 1);
+  expect((await documentOf(page)).kind).toBe('image');
+  await expect(page.getByTestId('toolbar.addImages')).toHaveCount(0);
+  await page.getByTestId('markup.cancel').click();
+  await expect(page.getByTestId('host.modal')).toHaveCount(0);
+
+  // One photo picked for a board still opens a board, with Add Images.
+  await page.getByTestId('open.boardPhotosInput').setInputFiles('example/public/samples/waterfall.jpg');
+  await waitForPhotos(page, 1);
+  expect((await documentOf(page)).kind).toBe('board');
+  await expect(page.getByTestId('toolbar.addImages')).toBeVisible();
+  await page.getByTestId('markup.photoInput').setInputFiles('example/public/samples/mossy-trees.jpg');
+  await waitForPhotos(page, 2);
+});
+
 test('turns phone photos upright', async ({ page }) => {
   await openSample(page, 'mountain-hut-exif6.jpg');
   const photo = (await documentOf(page)).items[0];

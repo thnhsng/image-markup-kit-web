@@ -177,7 +177,8 @@ export function App(): ReactElement {
   const [state, setState] = useState<MarkupEditorState | null>(null);
   const [messages, setMessages] = useState<readonly string[]>([]);
   const [busy, setBusy] = useState(false);
-  const files = useRef<HTMLInputElement>(null);
+  const photoFile = useRef<HTMLInputElement>(null);
+  const boardFiles = useRef<HTMLInputElement>(null);
 
   const features = useMemo((): { value: MarkupFeatures; error: string | null } => {
     try {
@@ -336,21 +337,41 @@ export function App(): ReactElement {
           >
             Board with 20 photos
           </button>
-          <button type="button" data-testid="open.files" disabled={busy} onClick={() => files.current?.click()}>
-            Your photos…
+          <button type="button" data-testid="open.photo" disabled={busy} onClick={() => photoFile.current?.click()}>
+            Annotate a photo…
           </button>
           <input
-            ref={files}
+            ref={photoFile}
+            type="file"
+            accept="image/*"
+            hidden
+            data-testid="open.photoInput"
+            onChange={(event) => {
+              const chosen = event.currentTarget.files?.[0];
+              event.currentTarget.value = '';
+              if (chosen) open({ kind: 'image', image: chosen });
+            }}
+          />
+          <button
+            type="button"
+            data-testid="open.boardPhotos"
+            disabled={busy}
+            onClick={() => boardFiles.current?.click()}
+          >
+            New board from photos…
+          </button>
+          <input
+            ref={boardFiles}
             type="file"
             accept="image/*"
             multiple
             hidden
-            data-testid="open.input"
+            data-testid="open.boardPhotosInput"
             onChange={(event) => {
               const chosen = [...(event.currentTarget.files ?? [])];
               event.currentTarget.value = '';
-              if (chosen.length === 1) open({ kind: 'image', image: chosen[0]! });
-              else if (chosen.length > 1) open({ kind: 'images', images: chosen });
+              // A board even with one photo, so that more can be added, as in the iOS demo.
+              if (chosen.length > 0) open({ kind: 'images', images: chosen });
             }}
           />
           <button
