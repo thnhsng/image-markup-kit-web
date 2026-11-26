@@ -7,15 +7,22 @@ matches it.
 
 ## [Unreleased]
 
+## [0.2.0] - 2026-11-26
+
 ### Added
 
 - Speech bubble tails can be pointed anywhere: a selected bubble has a yellow handle on the tip of its tail, which
   drags anywhere (even past the bubble), and one on the end of its base, which makes the tail wider or narrower. The
   first drag turns the bubble's box into just its body, without moving anything; one undo step puts it back.
   `ShapeContent.tail` (`BubbleTail`: `tip`, `width`) holds the tail, written to `document.json` only once a tail
-  has been dragged, as ImageMarkupKit 0.4.0 (Swift) writes it. Clicks and the eraser reach the tail wherever it is, and
-  exports and shadows include it.
+  has been dragged, as ImageMarkupKit 0.4.0 (Swift) writes it. Clicks and the eraser reach the tail wherever it is,
+  and exports and shadows include it.
 - The debug driver's `dragBubbleTail` gesture, and the `adjustTail` undo action name ("Adjust Tail").
+
+### Changed
+
+- `ShapeContent` has a `tail` field, `null` for every shape but an adjusted speech bubble: code that builds shape
+  contents by hand adds `tail: null` (`createShapeItem` sets it, and takes a `tail` option).
 
 ## [0.1.1] - 2026-11-26
 
@@ -54,6 +61,7 @@ The first release: the web counterpart of ImageMarkupKit 0.2.0 for Swift.
   and `maxBytes` with fallback qualities.
 - Photo import with EXIF orientation, HEIC kept byte for byte, and on-screen copies sized for the screen.
 
-[Unreleased]: https://github.com/thnhsng/image-markup-kit-web/compare/v0.1.1...HEAD
+[Unreleased]: https://github.com/thnhsng/image-markup-kit-web/compare/v0.2.0...HEAD
+[0.2.0]: https://github.com/thnhsng/image-markup-kit-web/compare/v0.1.1...v0.2.0
 [0.1.1]: https://github.com/thnhsng/image-markup-kit-web/compare/v0.1.0...v0.1.1
 [0.1.0]: https://github.com/thnhsng/image-markup-kit-web/releases/tag/v0.1.0

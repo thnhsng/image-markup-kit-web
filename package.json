@@ -1,6 +1,6 @@
 {
   "name": "image-markup-kit",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "Photo markup and multi-photo boards for React: pen, highlighter, shapes, arrows, polylines, curves, text and notes, flattened to one JPEG or PNG. Reads and writes ImageMarkupKit document.json (schema 1).",
   "keywords": [
     "markup",
