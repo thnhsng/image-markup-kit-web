@@ -7,6 +7,8 @@ matches it.
 
 ## [Unreleased]
 
+## [0.1.1] - 2026-11-26
+
 ### Fixed
 
 - A board no longer exports with a white frame around what is drawn: a photo opened as a board and marked up inside
@@ -42,5 +44,6 @@ The first release: the web counterpart of ImageMarkupKit 0.2.0 for Swift.
   and `maxBytes` with fallback qualities.
 - Photo import with EXIF orientation, HEIC kept byte for byte, and on-screen copies sized for the screen.
 
-[Unreleased]: https://github.com/thnhsng/image-markup-kit-web/compare/v0.1.0...HEAD
+[Unreleased]: https://github.com/thnhsng/image-markup-kit-web/compare/v0.1.1...HEAD
+[0.1.1]: https://github.com/thnhsng/image-markup-kit-web/compare/v0.1.0...v0.1.1
 [0.1.0]: https://github.com/thnhsng/image-markup-kit-web/releases/tag/v0.1.0
