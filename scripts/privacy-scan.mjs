@@ -44,13 +44,22 @@ if (!modes.tree && !modes.history && !modes.pack && !modes.registry) {
 // Allowlists: public information only.
 
 const ALLOWED_IDENTITIES = new Set(['thnhsng <t.sang848@gmail.com>', 'GitHub <noreply@github.com>']);
-const ALLOWED_EMAILS = new Set(['t.sang848@gmail.com', 'noreply@anthropic.com', 'noreply@github.com']);
+// npm-oidc-no-reply@github.com: the publisher npm records for a version published from GitHub Actions through trusted
+// publishing ("GitHub Actions <npm-oidc-no-reply@github.com>" in the registry metadata).
+const ALLOWED_EMAILS = new Set([
+  't.sang848@gmail.com',
+  'noreply@anthropic.com',
+  'noreply@github.com',
+  'npm-oidc-no-reply@github.com',
+]);
 const ALLOWED_EMAIL_SUFFIXES = ['@users.noreply.github.com'];
 const ALLOWED_HOSTS = [
   'github.com',
   'githubusercontent.com',
   'npmjs.org',
   'npmjs.com',
+  // The provenance predicate type in the registry metadata of a version published with provenance.
+  'slsa.dev',
   'unsplash.com',
   'keepachangelog.com',
   'semver.org',

@@ -65,6 +65,19 @@ jobs:
           else
             npm publish --provenance --access public --ignore-scripts
           fi
+      - name: Wait until the published version can be downloaded
+        # npm processes a new version for a few minutes before `npm view` and `npm pack` can see it.
+        run: |
+          version="${GITHUB_REF_NAME#v}"
+          for attempt in $(seq 1 60); do
+            if npm view "image-markup-kit@$version" version --prefer-online >/dev/null 2>&1; then
+              echo "image-markup-kit@$version is available"
+              exit 0
+            fi
+            sleep 10
+          done
+          echo "image-markup-kit@$version is still not available after 10 minutes"
+          exit 1
       - name: Privacy scan of the published version
         env:
           PRIVACY_TERMS: ${{ secrets.PRIVACY_TERMS }}
