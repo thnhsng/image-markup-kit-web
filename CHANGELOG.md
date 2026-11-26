@@ -7,6 +7,20 @@ matches it.
 
 ## [Unreleased]
 
+### Fixed
+
+- A board no longer exports with a white frame around what is drawn: a photo opened as a board and marked up inside
+  its edges exports as just the photo, edge to edge. Marks past a photo's edge widen the image just to their tips:
+  no longer by an arrowhead's length around a whole arrow.
+- No sliver of background along a board photo's right or bottom edge: the export is no longer rounded out to whole
+  canvas units (photos on a board are rarely a whole number of units wide).
+- The sharp corners of mitered borders (triangles, stars, diamonds, pentagons, rotated rectangles and bordered photos)
+  are no longer cut off at the edge of a board export.
+
+### Changed
+
+- `boardPadding` is 0 by default (it was 24). Pass `boardPadding: 24` for the former margin.
+
 ## [0.1.0] - 2026-10-05
 
 The first release: the web counterpart of ImageMarkupKit 0.2.0 for Swift.

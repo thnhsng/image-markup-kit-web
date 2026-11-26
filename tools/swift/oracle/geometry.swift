@@ -105,6 +105,7 @@ func runGeometry(_ url: URL) throws -> Data {
         let document = try MarkupDocument.decode(from: JSONSerialization.data(withJSONObject: value))
         var result: [String: Any] = [:]
         result["bounds"] = document.items.map { rectValue(ItemGeometry.visualBounds(of: $0, in: document)) }
+        result["inkBounds"] = document.items.map { rectValue(ItemGeometry.inkBounds(of: $0, in: document)) }
         result["samples"] = document.items.map { item -> Any in
             item.lineContent.map { LinePath.samples(of: $0, in: document).map(pointValue) } ?? NSNull()
         }

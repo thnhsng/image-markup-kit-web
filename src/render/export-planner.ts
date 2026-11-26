@@ -1,8 +1,8 @@
 import { backgroundItem } from '../model/document';
 import { swiftRound } from '../model/swift-math';
 import type { MarkupDocument, Rect, Size } from '../model/types';
-import { visualBoundsOfItems } from '../geometry/item-geometry';
-import { insetRect, integralRect, isNullRect, rectHeight, rectWidth } from '../geometry/rect';
+import { inkBoundsOfItems } from '../geometry/item-geometry';
+import { insetRect, isNullRect, rectHeight, rectWidth } from '../geometry/rect';
 
 /** How the flattened image is produced. */
 export type MarkupExportFormat =
@@ -23,7 +23,10 @@ export interface MarkupExportOptions {
   readonly maxPixelDimension?: number;
   /** Total pixel budget of the output (memory guard; iOS Safari refuses canvases above 16,777,216 pixels). */
   readonly maxPixelCount?: number;
-  /** Board mode: empty margin around the content, in canvas units. */
+  /**
+   * Board mode: empty margin around the content, in canvas units. None by default: a board exports what is drawn,
+   * edge to edge (one photo marked up inside it exports as just the photo).
+   */
   readonly boardPadding?: number;
   /** Board mode: minimum pixels per canvas unit, so text stays sharp even when photos are small. */
   readonly minimumBoardScale?: number;
@@ -34,7 +37,7 @@ export const DEFAULT_EXPORT_OPTIONS = {
   format: { type: 'jpeg', quality: 0.85 } as MarkupExportFormat,
   maxPixelDimension: 8192,
   maxPixelCount: 16_000_000,
-  boardPadding: 24,
+  boardPadding: 0,
   minimumBoardScale: 2,
 } as const;
 
@@ -66,7 +69,7 @@ export interface ExportPlan {
   readonly isClamped: boolean;
 }
 
-/** Image mode: the photo. Boards: everything drawn plus `boardPadding`, on whole units; an empty board is 800 × 600. */
+/** Image mode: the photo. Boards: what is drawn, edge to edge, plus `boardPadding`; an empty board is 800 × 600. */
 export function exportRect(document: MarkupDocument, options: MarkupExportOptions = {}): Rect {
   const resolved = resolveExportOptions(options);
   const background = document.kind === 'image' ? backgroundItem(document) : undefined;
@@ -74,11 +77,13 @@ export function exportRect(document: MarkupDocument, options: MarkupExportOption
     const canvas = background.content.box.frame;
     if (rectWidth(canvas) > 0 && rectHeight(canvas) > 0) return canvas;
   }
-  const bounds = visualBoundsOfItems(document.items, document);
+  // Not rounded out to whole units: photos are rarely a whole number of units wide, and the extra fraction would
+  // show as a sliver of background along their edge.
+  const bounds = inkBoundsOfItems(document.items, document);
   if (isNullRect(bounds) || !(rectWidth(bounds) > 0) || !(rectHeight(bounds) > 0)) {
     return { x: 0, y: 0, width: 800, height: 600 };
   }
-  return integralRect(insetRect(bounds, -resolved.boardPadding, -resolved.boardPadding));
+  return insetRect(bounds, -resolved.boardPadding, -resolved.boardPadding);
 }
 
 /**

@@ -128,10 +128,13 @@ changed.
 change. To start over with another document, give the editor a new `key`.
 
 Export options: `format` (`{ type: 'jpeg', quality, maxBytes?, fallbackQualities? }` or `{ type: 'png' }`),
-`maxPixelDimension` (8192), `maxPixelCount` (16,000,000), `boardPadding` (24) and `minimumBoardScale` (2). The pixel
+`maxPixelDimension` (8192), `maxPixelCount` (16,000,000), `boardPadding` (0) and `minimumBoardScale` (2). The pixel
 count default is lower than the Swift package's 40 MP because Safari on iOS refuses canvases above 16.7 MP; pass
 `maxPixelCount: 40_000_000` for desktop-only apps. With `maxBytes`, a JPEG that is too large is encoded again at each
 `fallbackQualities` step (0.75, 0.6, 0.5 by default) from the same canvas.
+
+A board exports what is drawn, edge to edge: one photo marked up inside its edges exports as just the photo, and marks
+past a photo's edge widen the image just to their tips. Pass `boardPadding` (canvas units) for a margin around it all.
 
 ### Controlling the editor
 

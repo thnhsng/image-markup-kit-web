@@ -22,7 +22,7 @@ enum TextLayout {
 public struct MarkupExportOptions: Equatable, Sendable {
     public var maxPixelDimension: CGFloat = 8192
     public var maxPixelCount: CGFloat = 40_000_000
-    public var boardPadding: CGFloat = 24
+    public var boardPadding: CGFloat = 0
     public var minimumBoardScale: CGFloat = 2
     public static let `default` = MarkupExportOptions()
 }

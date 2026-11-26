@@ -4,7 +4,7 @@ import { carryChildren, parentFor } from '../../src/geometry/attachments';
 import { bindingFor } from '../../src/geometry/bindings';
 import { flowFrames } from '../../src/geometry/board-layout';
 import { bindTargetAt, erasableItems, itemAt } from '../../src/geometry/hit-testing';
-import { visualBounds } from '../../src/geometry/item-geometry';
+import { inkBounds, visualBounds } from '../../src/geometry/item-geometry';
 import { flattened, insertionPoints, samplesOf, trimmed } from '../../src/geometry/line-path';
 import { isNullRect } from '../../src/geometry/rect';
 import { pathBounds, type Path, type PathCommand } from '../../src/geometry/path';
@@ -65,6 +65,7 @@ interface SwiftBox {
 }
 interface SwiftDocument {
   bounds: Array<Quad | null>;
+  inkBounds: Array<Quad | null>;
   samples: Array<Pair[] | null>;
   hits: Array<Array<string | null>>;
   bindTargets: Array<string | null>;
@@ -255,6 +256,12 @@ describe('geometry matches the Swift package', () => {
           if (item.type === 'line' && swiftSamples) {
             closeArray(toPairs(samplesOf(item.content, document)), swiftSamples.flat(), `item ${index} samples`);
           }
+        });
+      });
+
+      it('has the same ink bounds', () => {
+        document.items.forEach((item, index) => {
+          compareRect(inkBounds(item, document), expected.inkBounds[index] ?? null, `item ${index} ink bounds`);
         });
       });
 

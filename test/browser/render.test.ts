@@ -6,6 +6,7 @@ import {
   createBoardDocument,
   createCurveItem,
   createImageDocument,
+  createLineItem,
   createMarkupPackage,
   createPolylineItem,
   createShapeItem,
@@ -209,6 +210,30 @@ describe('export details', () => {
     });
     expect(rendering.pixelSize).toEqual({ width: 4032, height: 3024 });
     expect(rendering.isClamped).toBe(false);
+  });
+
+  it('exports a photo opened as a board and marked up inside with no frame and no sliver', async () => {
+    // The photo is 899.55… units wide; its edges must land on the image's edges, with no background around them.
+    const { sources, assets } = await importImages([await solidJPEG(2000, 1334, '#3366CC')]);
+    const board = createBoardDocument(sources);
+    const photo = board.items[0]!.type === 'image' ? board.items[0]!.content.box.frame : null;
+    if (!photo) throw new Error('no photo');
+    const arrow = createLineItem({ x: 500, y: 300 }, { x: photo.width - 5, y: 300 }, itemStyle());
+    const rendering = await renderMarkup({ ...board, items: [...board.items, arrow] }, assets, png);
+    expect(rendering.pixelSize).toEqual({ width: 2000, height: 1334 });
+    const { width, height, pixel } = await readExport(rendering.blob);
+    expect([width, height]).toEqual([2000, 1334]);
+    const edges: [number, number][] = [
+      [0, 0],
+      [width - 1, 0],
+      [0, height - 1],
+      [width - 1, height - 1],
+      [width - 1, height / 3],
+      [width / 2, height - 1],
+      [0, height / 3],
+      [width / 2, 0],
+    ];
+    for (const [x, y] of edges) expect(isClose(pixel(x, y), hex('#3366CC'), 24), `photo at (${x}, ${y})`).toBe(true);
   });
 
   it('re-encodes at lower qualities to fit maxBytes, and reports when it cannot', async () => {

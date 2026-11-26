@@ -392,6 +392,36 @@ const board = {
 
 const emptyBoard = { schemaVersion: 1, id: id(902), kind: 'board', backgroundColor: '#FFFFFFFF', items: [] };
 
+// What a board exports edge to edge: a photo of a fractional width with an arrow just inside it, and marks past its
+// edges (mitered tips, one too sharp for a miter, arrowheads, a note with a shadow, a rotated photo with a border and
+// a rotated rectangle with rounded corners, mitered but without sharp corners).
+const edgeBoard = {
+  schemaVersion: 1,
+  id: id(903),
+  kind: 'board',
+  backgroundColor: '#FFFFFFFF',
+  items: [
+    image(1, box(0, 0, 899.55, 600), { style: { strokeColor: null } }),
+    image(2, box(1000, 100, 300, 200, 0.5), { style: { strokeColor: '#FFFFFFFF', lineWidth: 8 } }),
+    line(10, { start: { point: [500, 300] }, end: { point: [894.55, 300] } }, { parentID: id(1) }),
+    shape(11, 'triangle', box(300, -80, 100, 100)),
+    shape(12, 'star', box(860, 200, 80, 80, 0.4)),
+    shape(13, 'diamond', box(700, 450, 60, 200, -0.3), { style: style({ lineWidth: 10 }) }),
+    shape(14, 'diamond', box(200, 520, 10, 200)),
+    line(15, { start: { point: [100, 640] }, end: { point: [400, 660] }, startHead: 'arrow' }),
+    line(16, {
+      start: { point: [600, 650] },
+      end: { point: [800, 650] },
+      kind: 'polyline',
+      waypoints: [[700, 560]],
+    }),
+    text(17, box(-60, 500, 140, 52), {
+      style: { fillColor: '#FFF3A6FF', strokeColor: '#E0B300FF', lineWidth: 2, shadow: true },
+    }),
+    shape(18, 'rectangle', box(-40, 300, 100, 80, 0.7), { style: style({ cornerRadius: 20 }) }),
+  ],
+};
+
 const hitPoints = [];
 for (let y = -40; y <= 800; y += 40) for (let x = -40; x <= 2440; x += 40) hitPoints.push([x, y]);
 for (let i = 0; i < 600; i += 1) hitPoints.push([between(-50, 2450), between(-50, 820)]);
@@ -408,6 +438,7 @@ const exportOptions = [
   { maxPixelCount: 1000000 },
   { minimumBoardScale: 5 },
   { maxPixelCount: 16000000 },
+  { boardPadding: 24 },
 ];
 
 const carry = [
@@ -424,7 +455,7 @@ const cases = {
   resize,
   rotate,
   boards,
-  documents: [annotated, board, emptyBoard],
+  documents: [annotated, board, emptyBoard, edgeBoard],
   hitPoints,
   bindPoints,
   tolerances,

@@ -102,6 +102,20 @@ test('opens your photo to annotate, or as a board to add more to', async ({ page
   await waitForPhotos(page, 2);
 });
 
+test('exports a photo opened as a board and marked up inside as just the photo', async ({ page }) => {
+  await page.goto('./');
+  await page.getByTestId('open.boardPhotosInput').setInputFiles('example/public/samples/waterfall.jpg');
+  await waitForPhotos(page, 1);
+  expect((await documentOf(page)).kind).toBe('board');
+  // The photo spans 900 × 600 canvas units; the arrow ends 10 units inside its right edge.
+  await pickTool(page, 'arrow', 'arrow');
+  await drag(page, { x: 450, y: 300 }, { x: 890, y: 300 });
+  expect((await documentOf(page)).items).toHaveLength(2);
+  await page.getByTestId('markup.done').click();
+  // Boards export at 2 pixels per unit or more: the photo alone, with no margin (it was 1896 × 1296).
+  await expect(page.getByTestId('result.size')).toContainText('1800 × 1200 px');
+});
+
 test('turns phone photos upright', async ({ page }) => {
   await openSample(page, 'mountain-hut-exif6.jpg');
   const photo = (await documentOf(page)).items[0];
