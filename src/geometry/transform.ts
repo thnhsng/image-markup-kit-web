@@ -1,6 +1,6 @@
 import { withItemBox } from '../model/document';
 import { ULP_OF_ONE } from '../model/swift-math';
-import type { Box, MarkupDocument, MarkupItem, Point, Rect, Size, TextContent } from '../model/types';
+import type { Box, BubbleTailPart, MarkupDocument, MarkupItem, Point, Rect, Size, TextContent } from '../model/types';
 import { resolvedEndpoints } from './bindings';
 import { boxCenter, boxOffset, toWorld } from './box';
 import { snapAngle } from './geometry-math';
@@ -17,7 +17,9 @@ export type HandleKind =
   /** A point of a line: 0 is the start, the last index the end. */
   | { readonly kind: 'lineVertex'; readonly index: number }
   /** The "+" in the middle of segment i (point i → i + 1) of a polyline or curve. */
-  | { readonly kind: 'lineInsert'; readonly index: number };
+  | { readonly kind: 'lineInsert'; readonly index: number }
+  /** The tip of a speech bubble's tail, or the end of its base (its width). */
+  | { readonly kind: 'bubbleTail'; readonly part: BubbleTailPart };
 
 /** The eight resize handles, clockwise from the top-left corner. */
 export const ALL_RESIZE_HANDLES: readonly HandleKind[] = [

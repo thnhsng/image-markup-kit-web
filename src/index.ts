@@ -5,6 +5,8 @@ export type {
   ArrowHead,
   Box,
   BoxedItem,
+  BubbleTail,
+  BubbleTailPart,
   ConnectorBinding,
   DashStyle,
   Endpoint,

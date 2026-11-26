@@ -79,11 +79,30 @@ export interface ImageContent {
   readonly box: Box;
 }
 
+/**
+ * The tail of a speech bubble that was adjusted. The bubble's box is then its body, and the tail runs from the side
+ * of the body that faces the tip.
+ */
+export interface BubbleTail {
+  /** Tip, normalized within the box's unrotated frame: (0, 0) is the top-left corner, (1, 1) the bottom-right. */
+  readonly tip: Point;
+  /** Width of the tail where it leaves the body, as a fraction of that side's length. */
+  readonly width: number;
+}
+
+/** A handle of a speech bubble's tail: its tip, or the end of its base (which sets the tail's width). */
+export type BubbleTailPart = 'tip' | 'width';
+
 export interface ShapeContent {
   readonly kind: ShapeKind;
   readonly box: Box;
   /** Circle and square: resizing keeps the aspect ratio. */
   readonly lockAspect: boolean;
+  /**
+   * Speech bubbles whose tail was adjusted. Null: the original bubble, with its body in the top 78% of the box and
+   * the tail tip on the bottom edge.
+   */
+  readonly tail: BubbleTail | null;
 }
 
 /** Text and notes. A note is a text item whose style has a fill and a border. */

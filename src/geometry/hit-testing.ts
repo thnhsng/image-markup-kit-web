@@ -1,13 +1,14 @@
 import { effectiveLineWidth } from '../model/style';
 import type { LineContent, MarkupDocument, MarkupItem, Point, UUIDString } from '../model/types';
 import { isValidBindTarget } from './bindings';
-import { boxContains, boxSpacePoint, toWorld } from './box';
+import { boxContains, boxSpacePoint, toLocal, toWorld } from './box';
+import { shapeFrameSpaceBounds } from './bubble';
 import { distanceBetweenSegments, distanceToPolyline, distanceToSegment } from './geometry-math';
 import { visualBounds } from './item-geometry';
 import { samplesOf } from './line-path';
 import { distanceToPath, flattenPath, pathContains, PathBuilder, type FlatSubpath } from './path';
-import { lineGeometryOf, shapePath, strokePoints } from './path-factory';
-import { boundingRect, insetRect, rectsIntersect } from './rect';
+import { lineGeometryOf, shapePathOf, strokePoints } from './path-factory';
+import { boundingRect, insetRect, rectContains, rectsIntersect } from './rect';
 import { add, distance, scale, subtract } from './vec';
 
 // Which item a pointer lands on. All tests run against the model (HitTesting.swift); "is inside the path stroked
@@ -19,8 +20,7 @@ const flatShapes = new WeakMap<MarkupItem, readonly FlatSubpath[]>();
 function flatShape(item: MarkupItem & { type: 'shape' }): readonly FlatSubpath[] {
   let flat = flatShapes.get(item);
   if (!flat) {
-    const { kind, box } = item.content;
-    flat = flattenPath(shapePath(kind, { width: box.frame.width, height: box.frame.height }, item.style.cornerRadius));
+    flat = flattenPath(shapePathOf(item.content, item.style.cornerRadius));
     flatShapes.set(item, flat);
   }
   return flat;
@@ -62,7 +62,11 @@ export function hits(item: MarkupItem, point: Point, document: MarkupDocument, t
       return boxContains(item.content.box, point, tolerance);
     case 'shape': {
       const box = item.content.box;
-      if (!boxContains(box, point, tolerance + lineWidth / 2)) return false;
+      // The frame, and the tail of a speech bubble wherever its tip is.
+      const reach = tolerance + lineWidth / 2;
+      if (!rectContains(insetRect(shapeFrameSpaceBounds(item.content), -reach, -reach), toLocal(box, point))) {
+        return false;
+      }
       const local = boxSpacePoint(box, point);
       const flat = flatShape(item);
       if (item.style.fillColor !== null && pathContains(flat, local)) return true;

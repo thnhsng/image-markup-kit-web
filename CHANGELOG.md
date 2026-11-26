@@ -7,6 +7,16 @@ matches it.
 
 ## [Unreleased]
 
+### Added
+
+- Speech bubble tails can be pointed anywhere: a selected bubble has a yellow handle on the tip of its tail, which
+  drags anywhere (even past the bubble), and one on the end of its base, which makes the tail wider or narrower. The
+  first drag turns the bubble's box into just its body, without moving anything; one undo step puts it back.
+  `ShapeContent.tail` (`BubbleTail`: `tip`, `width`) holds the tail, written to `document.json` only once a tail
+  has been dragged, as ImageMarkupKit 0.4.0 (Swift) writes it. Clicks and the eraser reach the tail wherever it is, and
+  exports and shadows include it.
+- The debug driver's `dragBubbleTail` gesture, and the `adjustTail` undo action name ("Adjust Tail").
+
 ## [0.1.1] - 2026-11-26
 
 ### Fixed

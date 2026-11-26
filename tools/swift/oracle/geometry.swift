@@ -39,9 +39,10 @@ func runGeometry(_ url: URL) throws -> Data {
     var output: [String: Any] = [:]
 
     output["shapes"] = (input["shapes"] as? [[String: Any]] ?? []).map { shape -> [String: Any] in
+        let tail = (shape["tail"] as? [String: Any]).map { BubbleTail(tip: point($0["tip"]), width: number($0["width"])) }
         let path = PathFactory.shapePath(kind: ShapeKind(rawValue: shape["kind"] as! String)!,
                                          size: CGSize(width: number(shape["width"]), height: number(shape["height"])),
-                                         cornerRadius: number(shape["cornerRadius"]))
+                                         cornerRadius: number(shape["cornerRadius"]), tail: tail)
         return ["elements": elements(path), "bounds": rectValue(path.boundingBoxOfPath)]
     }
 

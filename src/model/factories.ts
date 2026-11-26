@@ -18,6 +18,7 @@ import { ULP_OF_ONE } from './swift-math';
 import { itemStyle } from './style';
 import type {
   ArrowHead,
+  BubbleTail,
   ImageItem,
   ImageSource,
   ItemStyle,
@@ -79,7 +80,7 @@ export function createShapeItem(
   kind: ShapeKind,
   frame: Rect,
   style: ItemStyle,
-  options: { readonly rotation?: number; readonly lockAspect?: boolean } = {},
+  options: { readonly rotation?: number; readonly lockAspect?: boolean; readonly tail?: BubbleTail | null } = {},
 ): ShapeItem {
   return {
     id: createUUID(),
@@ -88,6 +89,7 @@ export function createShapeItem(
       kind,
       box: { frame: standardized(frame), rotation: options.rotation ?? 0 },
       lockAspect: options.lockAspect ?? false,
+      tail: options.tail ?? null,
     },
     style,
     isLocked: false,

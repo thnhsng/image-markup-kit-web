@@ -48,6 +48,7 @@ export type MarkupActionName =
   | 'move'
   | 'resize'
   | 'rotate'
+  | 'adjustTail'
   | 'draw'
   | 'highlight'
   | 'addShape'

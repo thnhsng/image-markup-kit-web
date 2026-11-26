@@ -52,8 +52,13 @@ function encodeContent(item: MarkupItem): JSONValue {
       return { assetID, pixelSize: encodeSize(pixelSize), box: encodeBox(box) };
     }
     case 'shape': {
-      const { kind, box, lockAspect } = item.content;
-      return { kind, box: encodeBox(box), lockAspect };
+      const { kind, box, lockAspect, tail } = item.content;
+      return {
+        kind,
+        box: encodeBox(box),
+        lockAspect,
+        tail: tail === null ? undefined : { tip: encodePoint(tail.tip), width: tail.width },
+      } as { [key: string]: JSONValue };
     }
     case 'text': {
       const content = item.content;

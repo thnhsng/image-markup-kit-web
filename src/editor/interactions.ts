@@ -1,5 +1,6 @@
 import { carryChildren, reassignParents } from '../geometry/attachments';
 import { bindingFor, detachReferences, resolveEndpoint, resolvedEndpoints, resolvedPoints } from '../geometry/bindings';
+import { bubbleTailHandles, documentWithTail, draggedTail } from '../geometry/bubble';
 import { simplify } from '../geometry/geometry-math';
 import { bindTargetAt, erasableItems } from '../geometry/hit-testing';
 import { insertionPoints } from '../geometry/line-path';
@@ -16,6 +17,7 @@ import { add, distance, length, midpoint, subtract } from '../geometry/vec';
 import { findItem, itemBox, locksAspectRatio, updateItem, withItemBox } from '../model/document';
 import { createPolylineItem, createShapeItem, createStrokeItem, createTextItem } from '../model/factories';
 import type {
+  BubbleTailPart,
   Endpoint,
   ItemStyle,
   LineContent,
@@ -271,6 +273,74 @@ export class RotateInteraction implements CanvasInteraction {
 
   cancel(): void {
     this.env.store.setPreview(null);
+  }
+}
+
+/**
+ * Drags a handle of a speech bubble's tail: its tip, or the end of its base (the width). The first drag of a bubble
+ * without a tail gives it one where it was drawn (`bubbleWithTail`), in the same undo step.
+ */
+export class BubbleTailInteraction implements CanvasInteraction {
+  private startDocument: MarkupDocument;
+  private startTouch: Point = { x: 0, y: 0 };
+  /** The document with the bubble given a tail, before the drag. */
+  private adjustedDocument: MarkupDocument | null = null;
+  /** The handle's world position when the drag began. */
+  private origin: Point = { x: 0, y: 0 };
+  private didMove = false;
+
+  constructor(
+    private readonly env: InteractionEnvironment,
+    private readonly itemID: UUIDString,
+    private readonly part: BubbleTailPart,
+  ) {
+    this.startDocument = env.store.document;
+  }
+
+  begin(point: Point): void {
+    this.startDocument = this.env.store.document;
+    this.startTouch = point;
+    const item = findItem(this.startDocument, this.itemID);
+    if (!item || item.isLocked) return;
+    const document = documentWithTail(this.startDocument, this.itemID);
+    const adjusted = document && findItem(document, this.itemID);
+    const handles = adjusted && bubbleTailHandles(adjusted);
+    const origin = this.part === 'tip' ? handles?.tip : handles?.width;
+    if (!document || !origin) return;
+    this.adjustedDocument = document;
+    this.origin = origin;
+  }
+
+  move(point: Point): void {
+    if (!this.adjustedDocument) return;
+    if (!this.didMove && !(distance(point, this.startTouch) * this.env.zoom > 3)) return;
+    this.didMove = true;
+    this.update(point);
+  }
+
+  end(point: Point): void {
+    if (!this.didMove || !this.adjustedDocument) {
+      this.env.store.setPreview(null);
+      return;
+    }
+    this.update(point);
+    const preview = this.env.store.preview;
+    if (preview) this.env.store.commit(preview, 'adjustTail');
+  }
+
+  cancel(): void {
+    this.env.store.setPreview(null);
+  }
+
+  private update(point: Point): void {
+    const document = this.adjustedDocument;
+    const item = document ? findItem(document, this.itemID) : undefined;
+    if (!document || item?.type !== 'shape') return;
+    // Keep the pointer's offset from the handle, so the handle does not jump under it.
+    const tail = draggedTail(item, this.part, add(this.origin, subtract(point, this.startTouch)));
+    if (!tail) return;
+    const updated: MarkupItem = { ...item, content: { ...item.content, tail } };
+    this.env.store.setPreview(updateItem(document, this.itemID, () => updated));
   }
 }
 

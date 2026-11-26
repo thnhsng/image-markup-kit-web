@@ -5,6 +5,7 @@ import { DEFAULT_FONT, DEFAULT_ITEM_STYLE } from '../model/style';
 import type {
   ArrowHead,
   Box,
+  BubbleTail,
   ConnectorBinding,
   DashStyle,
   Endpoint,
@@ -182,6 +183,19 @@ function imageContent(value: unknown): ImageContent {
   };
 }
 
+/** `try? decodeIfPresent(BubbleTail.self)`: a tail that cannot be read leaves the original bubble. */
+function bubbleTail(container: JSONObject): BubbleTail | null {
+  const value = present(container, 'tail');
+  if (value === undefined) return null;
+  try {
+    const tail = object(value, 'tail');
+    return { tip: point(required(tail, 'tip'), 'tip'), width: number(required(tail, 'width'), 'width') };
+  } catch (error) {
+    if (error instanceof DecodingFailure) return null;
+    throw error;
+  }
+}
+
 function shapeContent(value: unknown): ShapeContent {
   const container = object(value, 'content');
   const kind = string(required(container, 'kind'), 'kind');
@@ -190,6 +204,7 @@ function shapeContent(value: unknown): ShapeContent {
     kind: kind as ShapeKind,
     box: box(required(container, 'box')),
     lockAspect: optionalBoolean(container, 'lockAspect', false),
+    tail: bubbleTail(container),
   };
 }
 

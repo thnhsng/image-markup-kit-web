@@ -18,7 +18,8 @@ web and the other way around.
 - **Annotate a photo**: pen, highlighter, shapes (rectangle, rounded rectangle, oval, circle, square, triangle,
   diamond, star, pentagon, speech bubble, highlight box), arrows and lines, polylines, curves, text, sticky notes and
   an object eraser. Every mark is an object: select, move, resize, rotate, restyle, duplicate, lock, reorder, undo
-  and redo.
+  and redo. A selected speech bubble has two yellow handles: drag the tip of its tail anywhere, even past the
+  bubble, and drag the end of its base to make the tail wider or narrower.
 - **Board**: several photos side by side; move, resize and rotate them, add more, arrange them (row, column, grid,
   tidy up). Arrows attach to points on photos and follow them; marks drawn on a photo move with it.
 - **Export**: one flattened JPEG (or PNG) at the photos' resolution, within browser canvas limits, optionally under
@@ -244,6 +245,18 @@ a board photos are 600 units high. Export density follows the photos' pixels.
   ]
 }
 ```
+
+A speech bubble whose tail was dragged has a `tail` in its content: its box is then the body alone, and the tail
+leaves the side facing its tip.
+
+```jsonc
+{ "kind": "speechBubble", "box": { … }, "lockAspect": false,
+  "tail": { "tip": [0.16, 1.28], "width": 0.16 } }   // tip normalized to the box (may lie outside it); width a fraction of the side
+```
+
+Without `tail` the bubble is drawn as before (body in the top 78% of the box, tail tip on its bottom edge), so files
+without it are unchanged; an app that predates `tail` draws a bubble that has one with the fixed tail, inside its
+box.
 
 The editor writes what the Swift `JSONEncoder` writes (sorted keys, the same number and string formatting) and reads
 documents the way Swift's `Codable` does: unknown item types are skipped, so older apps open newer files, and a

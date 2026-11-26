@@ -1,13 +1,15 @@
 import { resolvedPoints } from '../geometry/bindings';
 import { boxCenter, worldPoint } from '../geometry/box';
+import { bubbleTailHandles } from '../geometry/bubble';
 import type { BoardArrangement } from '../geometry/board-layout';
 import { insertionPoints, lengthOf, pointAtDistance, samplesOf } from '../geometry/line-path';
 import { add, rotate, rotateAround, scale } from '../geometry/vec';
 import { itemBox } from '../model/document';
 import type { RGBAHex } from '../model/color';
-import type { MarkupItem, Point } from '../model/types';
+import type { BubbleTailPart, MarkupItem, Point } from '../model/types';
 import type { EditorController, PanelKind } from './controller';
 import {
+  BubbleTailInteraction,
   LineInsertInteraction,
   LineVertexInteraction,
   makeToolInteraction,
@@ -36,7 +38,9 @@ export type MarkupDebugGesture =
   /** Drags point `vertex` (0 = start) of the line at `itemIndex` by `by`. */
   | { readonly type: 'dragLineVertex'; readonly itemIndex: number; readonly vertex: number; readonly by: Point }
   /** Drags a new point out of the "+" handle of `segment` of the polyline or curve at `itemIndex`. */
-  | { readonly type: 'insertLineVertex'; readonly itemIndex: number; readonly segment: number; readonly by: Point };
+  | { readonly type: 'insertLineVertex'; readonly itemIndex: number; readonly segment: number; readonly by: Point }
+  /** Drags the tip or the width handle of the tail of the speech bubble at `itemIndex` by `by`. */
+  | { readonly type: 'dragBubbleTail'; readonly itemIndex: number; readonly part: BubbleTailPart; readonly by: Point };
 
 /** Scripted editing of an open editor. */
 export interface MarkupDebugDriver {
@@ -136,6 +140,15 @@ export function performDebugGesture(editor: EditorController, gesture: MarkupDeb
       if (!start) return;
       store.select([item.id]);
       run(new LineInsertInteraction(editor, item.id, gesture.segment), steps(start, gesture.by));
+      return;
+    }
+    case 'dragBubbleTail': {
+      const item = itemAtIndex(editor, gesture.itemIndex);
+      const handles = item ? bubbleTailHandles(item) : null;
+      const start = gesture.part === 'tip' ? handles?.tip : handles?.width;
+      if (!item || !start) return;
+      store.select([item.id]);
+      run(new BubbleTailInteraction(editor, item.id, gesture.part), steps(start, gesture.by));
       return;
     }
   }

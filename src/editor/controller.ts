@@ -21,6 +21,7 @@ import type {
 import type { TextMeasurer } from '../text/measurer';
 import { fitTextContent } from '../text/text-layout';
 import {
+  BubbleTailInteraction,
   LineInsertInteraction,
   LineVertexInteraction,
   makeToolInteraction,
@@ -880,6 +881,13 @@ export class EditorController implements InteractionEnvironment {
           return this.vertexInteraction(selected, handle.index);
         case 'lineInsert':
           return new LineInsertInteraction(this, selected.id, handle.index);
+        case 'bubbleTail':
+          return new BubbleTailInteraction(this, selected.id, handle.part);
+        default: {
+          // Every handle has its interaction: a new kind must not fall through to moving the item.
+          const unhandled: never = handle;
+          return unhandled;
+        }
       }
     }
     const item = itemAt(point, store.displayed, this.tolerance);

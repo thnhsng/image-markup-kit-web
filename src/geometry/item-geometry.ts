@@ -4,7 +4,8 @@ import type { Affine } from './affine';
 import { boxBoundingRect, boxToWorld } from './box';
 import { samplesOf } from './line-path';
 import { pathBounds, rectPath, transformPath, type Path } from './path';
-import { arrowHeadLength, lineGeometryOf, lineJoinFor, shapePath, type LineJoin } from './path-factory';
+import { shapeWorldBounds } from './bubble';
+import { arrowHeadLength, lineGeometryOf, lineJoinFor, shapePathOf, type LineJoin } from './path-factory';
 import { boundingRect, insetRect, isNullRect, NULL_RECT, unionRect } from './rect';
 import { add, distance, dot, length, normalized, scale, subtract } from './vec';
 
@@ -28,7 +29,10 @@ export function visualBounds(item: MarkupItem, document: MarkupDocument): Rect {
       return insetRect(boxBoundingRect(item.content.box), -shadow, -shadow);
     default: {
       const pad = effectiveLineWidth(item.style) / 2 + shadow;
-      return insetRect(boxBoundingRect(item.content.box), -pad, -pad);
+      // The tail of a speech bubble can reach past its box.
+      const hasTail = item.type === 'shape' && item.content.kind === 'speechBubble' && item.content.tail !== null;
+      const bounds = hasTail ? shapeWorldBounds(item.content) : boxBoundingRect(item.content.box);
+      return insetRect(bounds, -pad, -pad);
     }
   }
 }
@@ -56,7 +60,7 @@ export function inkBounds(item: MarkupItem, document: MarkupDocument): Rect {
     }
     case 'shape': {
       const { kind, box } = item.content;
-      const path = shapePath(kind, { width: box.frame.width, height: box.frame.height }, style.cornerRadius);
+      const path = shapePathOf(item.content, style.cornerRadius);
       return strokedBounds(path, boxToWorld(box), half, lineJoinFor(kind));
     }
     case 'text': {

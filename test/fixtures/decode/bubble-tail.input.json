@@ -1,0 +1,298 @@
+{
+  "schemaVersion": 1,
+  "id": "11111111-1111-4111-8111-111111111111",
+  "kind": "board",
+  "items": [
+    {
+      "id": "AAAAAAAA-0000-4000-8000-000000000001",
+      "type": "shape",
+      "content": {
+        "kind": "speechBubble",
+        "box": {
+          "frame": [
+            [
+              10,
+              20
+            ],
+            [
+              100,
+              50
+            ]
+          ]
+        },
+        "tail": {
+          "tip": [
+            0.25,
+            1.75
+          ],
+          "width": 0.2
+        }
+      }
+    },
+    {
+      "id": "AAAAAAAA-0000-4000-8000-000000000002",
+      "type": "shape",
+      "content": {
+        "kind": "speechBubble",
+        "box": {
+          "frame": [
+            [
+              10,
+              20
+            ],
+            [
+              100,
+              50
+            ]
+          ]
+        },
+        "tail": null
+      }
+    },
+    {
+      "id": "AAAAAAAA-0000-4000-8000-000000000003",
+      "type": "shape",
+      "content": {
+        "kind": "speechBubble",
+        "box": {
+          "frame": [
+            [
+              10,
+              20
+            ],
+            [
+              100,
+              50
+            ]
+          ]
+        },
+        "tail": {
+          "tip": [
+            1.5,
+            0.5
+          ]
+        }
+      }
+    },
+    {
+      "id": "AAAAAAAA-0000-4000-8000-000000000004",
+      "type": "shape",
+      "content": {
+        "kind": "speechBubble",
+        "box": {
+          "frame": [
+            [
+              10,
+              20
+            ],
+            [
+              100,
+              50
+            ]
+          ]
+        },
+        "tail": {
+          "tip": [
+            1
+          ],
+          "width": 0.2
+        }
+      }
+    },
+    {
+      "id": "AAAAAAAA-0000-4000-8000-000000000005",
+      "type": "shape",
+      "content": {
+        "kind": "speechBubble",
+        "box": {
+          "frame": [
+            [
+              10,
+              20
+            ],
+            [
+              100,
+              50
+            ]
+          ]
+        },
+        "tail": {
+          "tip": "x",
+          "width": 0.2
+        }
+      }
+    },
+    {
+      "id": "AAAAAAAA-0000-4000-8000-000000000006",
+      "type": "shape",
+      "content": {
+        "kind": "speechBubble",
+        "box": {
+          "frame": [
+            [
+              10,
+              20
+            ],
+            [
+              100,
+              50
+            ]
+          ]
+        },
+        "tail": {
+          "tip": [
+            1,
+            2
+          ],
+          "width": "wide"
+        }
+      }
+    },
+    {
+      "id": "AAAAAAAA-0000-4000-8000-000000000007",
+      "type": "shape",
+      "content": {
+        "kind": "speechBubble",
+        "box": {
+          "frame": [
+            [
+              10,
+              20
+            ],
+            [
+              100,
+              50
+            ]
+          ]
+        },
+        "tail": "left"
+      }
+    },
+    {
+      "id": "AAAAAAAA-0000-4000-8000-000000000008",
+      "type": "shape",
+      "content": {
+        "kind": "speechBubble",
+        "box": {
+          "frame": [
+            [
+              10,
+              20
+            ],
+            [
+              100,
+              50
+            ]
+          ]
+        },
+        "tail": {
+          "tip": [
+            -0.5,
+            0.3,
+            9
+          ],
+          "width": 1e-7,
+          "extra": true
+        }
+      }
+    },
+    {
+      "id": "AAAAAAAA-0000-4000-8000-000000000009",
+      "type": "shape",
+      "content": {
+        "kind": "rectangle",
+        "box": {
+          "frame": [
+            [
+              10,
+              20
+            ],
+            [
+              100,
+              50
+            ]
+          ]
+        },
+        "tail": {
+          "tip": [
+            2,
+            2
+          ],
+          "width": 0.5
+        }
+      }
+    },
+    {
+      "id": "AAAAAAAA-0000-4000-8000-000000000010",
+      "type": "shape",
+      "content": {
+        "kind": "speechBubble",
+        "box": {
+          "frame": [
+            [
+              10,
+              20
+            ],
+            [
+              100,
+              50
+            ]
+          ]
+        },
+        "tail": {
+          "tip": [
+            null,
+            1
+          ],
+          "width": 0.2
+        }
+      }
+    },
+    {
+      "id": "AAAAAAAA-0000-4000-8000-000000000011",
+      "type": "shape",
+      "content": {
+        "kind": "speechBubble",
+        "box": {
+          "frame": [
+            [
+              10,
+              20
+            ],
+            [
+              100,
+              50
+            ]
+          ]
+        },
+        "tail": []
+      }
+    },
+    {
+      "id": "AAAAAAAA-0000-4000-8000-000000000012",
+      "type": "shape",
+      "content": {
+        "kind": "speechBubble",
+        "box": {
+          "frame": [
+            [
+              10,
+              20
+            ],
+            [
+              100,
+              50
+            ]
+          ]
+        },
+        "tail": {
+          "tip": [
+            0.5,
+            -1
+          ],
+          "width": null
+        }
+      }
+    }
+  ]
+}

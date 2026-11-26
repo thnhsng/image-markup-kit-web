@@ -53,6 +53,33 @@ for (const kind of kinds) {
     for (const cornerRadius of [0, 8, 300, -5]) shapes.push({ kind, width, height, cornerRadius });
   }
 }
+// Speech bubbles whose tail was adjusted: the tip on each side, inside the body, on a diagonal, past a corner; the
+// width at its limits. Other kinds ignore a tail.
+const tips = [
+  [0.16, 1 / 0.78],
+  [0.5, -0.9],
+  [1.7, 0.3],
+  [-0.4, 0.95],
+  [0.3, 0.6],
+  [3, 3],
+  [-2, 1.2],
+  [0.5, 1.5],
+];
+for (const [width, height] of [
+  [200, 100],
+  [37.5, 91.25],
+  [10, 10],
+  [-120, 80],
+]) {
+  for (const cornerRadius of [0, 8, 300]) {
+    for (const tip of tips) {
+      for (const tailWidth of [0.16, 0, 1, -0.5]) {
+        shapes.push({ kind: 'speechBubble', width, height, cornerRadius, tail: { tip, width: tailWidth } });
+      }
+    }
+  }
+}
+shapes.push({ kind: 'rectangle', width: 200, height: 100, cornerRadius: 0, tail: { tip: [2, 2], width: 0.5 } });
 
 const zigzag = [
   [0, 0],
@@ -422,6 +449,52 @@ const edgeBoard = {
   ],
 };
 
+// Speech bubbles whose tails reach past their boxes, on a board with a photo.
+const bubble = (n, b, tail, extra = {}) => {
+  const item = shape(n, 'speechBubble', b, extra);
+  return { ...item, content: { ...item.content, tail } };
+};
+const bubbles = {
+  schemaVersion: 1,
+  id: id(950),
+  kind: 'board',
+  backgroundColor: '#F2F2F7FF',
+  items: [
+    image(60, box(1200, 0, 800, 600)),
+    bubble(
+      61,
+      box(1300, 100, 220, 110),
+      { tip: [1.9, 0.6], width: 0.3 },
+      {
+        style: style({ strokeColor: null, fillColor: '#FFFFFFFF', lineWidth: 0, shadow: true }),
+      },
+    ),
+    bubble(62, box(1500, 350, 200, 120, 0.6), { tip: [0.3, -1.4], width: 0.2 }, { style: style({ lineWidth: 4 }) }),
+    bubble(63, box(200, 150, 240, 140), { tip: [0.4, 0.5], width: 0.2 }, { style: style({ fillColor: '#FFCC00FF' }) }),
+    bubble(
+      64,
+      box(600, 100, 180, 120, -0.4),
+      { tip: [-1.2, 2.1], width: 1 },
+      {
+        style: style({ fillColor: '#007AFFFF', cornerRadius: 40, opacity: 0.5 }),
+      },
+    ),
+    shape(65, 'speechBubble', box(150, 450, 200, 150), { style: style({ fillColor: '#34C759FF' }) }),
+    bubble(
+      66,
+      box(1850, 450, 120, 100),
+      { tip: [2.5, 1.5], width: 0.16 },
+      {
+        style: style({ strokeColor: null, fillColor: '#FF3B30FF', lineWidth: 0 }),
+      },
+    ),
+    {
+      ...shape(67, 'rectangle', box(900, 600, 100, 80)),
+      content: { kind: 'rectangle', box: box(900, 600, 100, 80), lockAspect: false, tail: { tip: [3, 3], width: 0.5 } },
+    },
+  ],
+};
+
 const hitPoints = [];
 for (let y = -40; y <= 800; y += 40) for (let x = -40; x <= 2440; x += 40) hitPoints.push([x, y]);
 for (let i = 0; i < 600; i += 1) hitPoints.push([between(-50, 2450), between(-50, 820)]);
@@ -455,7 +528,7 @@ const cases = {
   resize,
   rotate,
   boards,
-  documents: [annotated, board, emptyBoard, edgeBoard],
+  documents: [annotated, board, emptyBoard, edgeBoard, bubbles],
   hitPoints,
   bindPoints,
   tolerances,

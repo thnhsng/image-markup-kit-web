@@ -307,6 +307,21 @@ const cases = {
     text(1, { text: 'a/b "q" \\ \t \n \u0001 \u001f \u007f \u2028 \u2029 😀 山小屋 6:00 出発' }),
     image(2, { assetID: 'folder/photo name.jpg' }),
   ]),
+  // A speech bubble's tail: a tail that cannot be read is dropped, not the bubble.
+  'bubble-tail': doc([
+    shape(1, { kind: 'speechBubble', tail: { tip: [0.25, 1.75], width: 0.2 } }),
+    shape(2, { kind: 'speechBubble', tail: null }),
+    shape(3, { kind: 'speechBubble', tail: { tip: [1.5, 0.5] } }),
+    shape(4, { kind: 'speechBubble', tail: { tip: [1], width: 0.2 } }),
+    shape(5, { kind: 'speechBubble', tail: { tip: 'x', width: 0.2 } }),
+    shape(6, { kind: 'speechBubble', tail: { tip: [1, 2], width: 'wide' } }),
+    shape(7, { kind: 'speechBubble', tail: 'left' }),
+    shape(8, { kind: 'speechBubble', tail: { tip: [-0.5, 0.3, 9], width: 1e-7, extra: true } }),
+    shape(9, { kind: 'rectangle', tail: { tip: [2, 2], width: 0.5 } }),
+    shape(10, { kind: 'speechBubble', tail: { tip: [null, 1], width: 0.2 } }),
+    shape(11, { kind: 'speechBubble', tail: [] }),
+    shape(12, { kind: 'speechBubble', tail: { tip: [0.5, -1], width: null } }),
+  ]),
   'duplicate-ids': doc([shape(1), shape(1, { kind: 'ellipse' })]),
   'empty-document': { id: DOC },
 };

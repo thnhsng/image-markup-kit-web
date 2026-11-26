@@ -3,6 +3,7 @@ import { EditorController } from '../../src/editor/controller';
 import { createDebugDriver } from '../../src/editor/debug';
 import {
   ArrowCreateInteraction,
+  BubbleTailInteraction,
   EraserInteraction,
   LineInsertInteraction,
   LineVertexInteraction,
@@ -74,8 +75,14 @@ describe('interactions', () => {
   it('leave locked items alone', () => {
     const locked = { ...rectItem(), isLocked: true };
     const line = { ...createPolylineItem([P(300, 100), P(350, 150), P(400, 100)], itemStyle()), isLocked: true };
-    const editor = makeBoard([locked, line]);
+    const bubble = {
+      ...createShapeItem('speechBubble', { x: 100, y: 300, width: 200, height: 100 }, itemStyle()),
+      isLocked: true,
+    };
+    const editor = makeBoard([locked, line, bubble]);
     const interactions = [
+      new BubbleTailInteraction(editor, bubble.id, 'tip'),
+      new BubbleTailInteraction(editor, bubble.id, 'width'),
       new MoveInteraction(editor, locked.id),
       new ResizeInteraction(editor, locked.id, 1, 1),
       new RotateInteraction(editor, locked.id),
@@ -91,8 +98,11 @@ describe('interactions', () => {
     const rect = rectItem();
     const line = createLineItem(P(300, 100), P(400, 100), itemStyle());
     const curve = createCurveItem([P(100, 300), P(300, 300), P(500, 300)], itemStyle());
-    const editor = makeBoard([rect, line, curve]);
+    const bubble = createShapeItem('speechBubble', { x: 100, y: 400, width: 200, height: 100 }, itemStyle());
+    const editor = makeBoard([rect, line, curve, bubble]);
     const makers: (() => CanvasInteraction)[] = [
+      () => new BubbleTailInteraction(editor, bubble.id, 'tip'),
+      () => new BubbleTailInteraction(editor, bubble.id, 'width'),
       () => new MoveInteraction(editor, rect.id),
       () => new ResizeInteraction(editor, rect.id, 1, 1),
       () => new RotateInteraction(editor, rect.id),

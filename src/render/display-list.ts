@@ -6,7 +6,7 @@ import {
   lineCapFor,
   lineGeometryOf,
   lineJoinFor,
-  shapePath,
+  shapePathOf,
   smoothedPath,
   strokePoints,
   type LineCap,
@@ -143,7 +143,7 @@ function contentNode(item: MarkupItem, document: MarkupDocument, env: DisplayEnv
     }
     case 'shape': {
       const { kind, box } = item.content;
-      const path = shapePath(kind, { width: box.frame.width, height: box.frame.height }, style.cornerRadius);
+      const path = shapePathOf(item.content, style.cornerRadius);
       return { kind: 'group', transform: boxToWorld(box), children: [fillAndStroke(path, style, lineJoinFor(kind))] };
     }
     case 'text':

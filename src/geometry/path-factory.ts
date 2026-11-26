@@ -1,14 +1,17 @@
 import type {
   ArrowHead,
+  BubbleTail,
   DashStyle,
   LineContent,
   MarkupDocument,
   Point,
+  ShapeContent,
   ShapeKind,
   Size,
   StrokeContent,
 } from '../model/types';
 import { resolvedPoints } from './bindings';
+import { bubblePath } from './bubble';
 import { closes, flattened, lengthOf, pointAtDistance, trimmed } from './line-path';
 import { ellipsePath, PathBuilder, rectPath, roundedRectPath, type Path } from './path';
 import { boundingRect } from './rect';
@@ -19,8 +22,17 @@ import { midpoint, normalized, perpendicular, scale, subtract, add } from './vec
 export type LineJoin = 'miter' | 'round' | 'bevel';
 export type LineCap = 'butt' | 'round' | 'square';
 
-/** Path of a shape in box space (origin at the box's top-left corner). */
-export function shapePath(kind: ShapeKind, size: Size, cornerRadius: number): Path {
+/** Path of a shape item in box space. */
+export function shapePathOf(shape: ShapeContent, cornerRadius: number): Path {
+  const { frame } = shape.box;
+  return shapePath(shape.kind, { width: frame.width, height: frame.height }, cornerRadius, shape.tail);
+}
+
+/**
+ * Path of a shape in box space (origin at the box's top-left corner). `tail` applies to speech bubbles only (see
+ * `bubble.ts`).
+ */
+export function shapePath(kind: ShapeKind, size: Size, cornerRadius: number, tail: BubbleTail | null = null): Path {
   const w = size.width;
   const h = size.height;
   const rect = { x: 0, y: 0, width: w, height: h };
@@ -50,7 +62,7 @@ export function shapePath(kind: ShapeKind, size: Size, cornerRadius: number): Pa
     case 'star':
       return polygon(fitted(regularPolygon(5, 0.4), w, h));
     case 'speechBubble':
-      return speechBubble(w, h, cornerRadius);
+      return tail ? bubblePath(size, cornerRadius, tail) : speechBubble(w, h, cornerRadius);
   }
 }
 

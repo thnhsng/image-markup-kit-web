@@ -7,7 +7,7 @@ import {
   type RefObject,
 } from 'react';
 import type { EditorController, PointerInput } from '../editor/controller';
-import { HANDLE_RADIUS, INSERT_HANDLE_RADIUS } from '../editor/overlay';
+import { HANDLE_RADIUS, INSERT_HANDLE_RADIUS, type OverlayDot } from '../editor/overlay';
 import { boxCorners } from '../geometry/box';
 import { pathToSVG } from '../geometry/path';
 import { dashPattern, smoothedPath } from '../geometry/path-factory';
@@ -277,6 +277,14 @@ function polygonPoints(points: readonly Point[]): string {
 }
 
 /** Handles, outline and the item a line end will attach to, in screen units. */
+const DOT_COLORS: Readonly<Record<OverlayDot['style'], { readonly fill: string; readonly stroke: string }>> = {
+  normal: { fill: '#FFFFFF', stroke: 'var(--imk-accent)' },
+  bound: { fill: 'var(--imk-success)', stroke: '#FFFFFF' },
+  active: { fill: 'var(--imk-accent)', stroke: '#FFFFFF' },
+  // Yellow, like the shape controls of Keynote and PowerPoint (iOS: systemYellow).
+  adjust: { fill: '#FFCC00', stroke: 'var(--imk-accent)' },
+};
+
 function SelectionChrome({ controller }: { readonly controller: EditorController }): ReactElement {
   const overlay = controller.overlay;
   const viewport = controller.viewport;
@@ -341,10 +349,8 @@ function SelectionChrome({ controller }: { readonly controller: EditorController
               cx={dot.point.x}
               cy={dot.point.y}
               r={HANDLE_RADIUS}
-              fill={
-                dot.style === 'normal' ? '#FFFFFF' : dot.style === 'bound' ? 'var(--imk-success)' : 'var(--imk-accent)'
-              }
-              stroke={dot.style === 'normal' ? 'var(--imk-accent)' : '#FFFFFF'}
+              fill={DOT_COLORS[dot.style].fill}
+              stroke={DOT_COLORS[dot.style].stroke}
               strokeWidth={dot.style === 'active' ? 2 : 1.5}
             />
           ))}

@@ -49,6 +49,26 @@ test('annotates a photo and exports it', async ({ page }) => {
   await expect(page.getByTestId('host.modal')).toHaveCount(0);
 });
 
+test("points a speech bubble's tail where it is dragged", async ({ page }) => {
+  await openSample(page);
+  await pickTool(page, 'shapes', 'speechBubble');
+  await drag(page, { x: 200, y: 200 }, { x: 600, y: 450 });
+  await expect(page.locator('[data-handle="adjust"]')).toHaveCount(2);
+  const drawn = (await documentOf(page)).items[1];
+  if (drawn?.type !== 'shape') throw new Error('no bubble');
+  const before = drawn.content.box.frame;
+
+  // The tip's handle sits on the tail as drawn: at the bottom of the bubble, 16% across.
+  await drag(page, { x: before.x + 0.16 * before.width, y: before.y + before.height }, { x: 700, y: 150 });
+  const bubble = (await documentOf(page)).items[1];
+  if (bubble?.type !== 'shape' || !bubble.content.tail) throw new Error('no bubble with a tail');
+  const { frame } = bubble.content.box;
+  expect(frame.height).toBeCloseTo(before.height * 0.78, 6);
+  const tip = bubble.content.tail.tip;
+  expect(Math.abs(frame.x + tip.x * frame.width - 700)).toBeLessThan(4);
+  expect(Math.abs(frame.y + tip.y * frame.height - 150)).toBeLessThan(4);
+});
+
 test('keeps its Escape presses from the host dialog', async ({ page }) => {
   await openSample(page);
   await pickTool(page, 'shapes', 'oval');

@@ -1,4 +1,5 @@
 import { resolvedPoints } from '../geometry/bindings';
+import { bubbleTailHandles } from '../geometry/bubble';
 import { boxCorners, worldPoint } from '../geometry/box';
 import { lengthOf, pointAtDistance, segments } from '../geometry/line-path';
 import { boundingRect, rectHeight, rectWidth, unionRect } from '../geometry/rect';
@@ -41,8 +42,11 @@ export interface OverlayHandle {
 
 export interface OverlayDot {
   readonly point: Point;
-  /** `bound`: a line end attached to an item; `active`: the line point the user tapped. */
-  readonly style: 'normal' | 'bound' | 'active';
+  /**
+   * `bound`: a line end attached to an item; `active`: the line point the user tapped; `adjust`: a handle that
+   * shapes the item rather than moving or resizing it (a speech bubble's tail).
+   */
+  readonly style: 'normal' | 'bound' | 'active' | 'adjust';
 }
 
 export interface SelectionOverlay {
@@ -105,9 +109,25 @@ export function selectionOverlay(
     const corners = boxCorners(box).map(toScreen);
     outline = corners;
     bounds = boundingRect(corners);
+    // A speech bubble's tail can reach past its box.
+    const tail = bubbleTailHandles(item);
+    const tip = tail && toScreen(tail.tip);
+    if (tip) bounds = unionRect(bounds, { x: tip.x, y: tip.y, width: 0, height: 0 });
     if (!item.isLocked) {
       // Fewer handles on items that are small on screen, so they stay individually grabbable.
       const smaller = Math.min(rectWidth(box.frame), rectHeight(box.frame)) * zoom;
+      // The tail's handles come first, so they win over a resize handle at the same distance; their dots are drawn
+      // last, on top.
+      const tailDots: OverlayDot[] = [];
+      if (tail && tip) {
+        handles.push({ kind: { kind: 'bubbleTail', part: 'tip' }, point: tip, touchRadius: TOUCH_RADIUS });
+        tailDots.push({ point: tip, style: 'adjust' });
+        if (tail.width && smaller >= 36) {
+          const point = toScreen(tail.width);
+          handles.push({ kind: { kind: 'bubbleTail', part: 'width' }, point, touchRadius: TOUCH_RADIUS });
+          tailDots.push({ point, style: 'adjust' });
+        }
+      }
       const kinds: readonly HandleKind[] =
         item.type === 'text'
           ? [
@@ -135,7 +155,7 @@ export function selectionOverlay(
       const knob = add(top, scale(rotate({ x: 0, y: -1 }, box.rotation), ROTATION_KNOB_OFFSET));
       rotationLine = [top, knob];
       handles.push({ kind: { kind: 'rotate' }, point: knob, touchRadius: TOUCH_RADIUS });
-      dots.push({ point: knob, style: 'normal' });
+      dots.push({ point: knob, style: 'normal' }, ...tailDots);
       bounds = unionRect(bounds, { x: knob.x, y: knob.y, width: 0, height: 0 });
     }
   }

@@ -184,6 +184,33 @@ describe('export details', () => {
     expect(isClose(at({ x: 100, y: 50 }), hex('#FFFFFF'))).toBe(true);
   });
 
+  it("draws a speech bubble's tail past its box, with a shadow or group opacity", async () => {
+    const board = createBoardDocument();
+    const tail = { tip: { x: 3, y: 0.5 }, width: 0.3 };
+    const document = {
+      ...board,
+      items: [
+        createShapeItem(
+          'speechBubble',
+          { x: 0, y: 0, width: 200, height: 100 },
+          itemStyle({ strokeColor: null, fillColor: MarkupColors.blue, lineWidth: 0, shadow: true }),
+          { tail },
+        ),
+        createShapeItem(
+          'speechBubble',
+          { x: 0, y: 300, width: 200, height: 100 },
+          itemStyle({ strokeColor: null, fillColor: MarkupColors.red, lineWidth: 0, opacity: 0.5 }),
+          { tail },
+        ),
+      ],
+    };
+    const rendering = await renderMarkup(document, {}, png);
+    const at = probe(document, (await readExport(rendering.blob)).pixel, png);
+    // The tips are 400 units past the boxes; three quarters of the way there, the tails are still drawn.
+    expect(isClose(at({ x: 500, y: 50 }), hex(MarkupColors.blue), 6)).toBe(true);
+    expect(isClose(at({ x: 500, y: 350 }), { r: 255, g: 157, b: 152, a: 255 }, 6)).toBe(true);
+  });
+
   it('draws text', async () => {
     const board = createBoardDocument();
     const text = createTextItem(

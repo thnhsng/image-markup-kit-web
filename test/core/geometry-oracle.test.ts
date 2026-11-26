@@ -35,7 +35,7 @@ type Pair = [Num, Num];
 type Quad = [Num, Num, Num, Num];
 type SwiftElement = [string, ...Num[]];
 interface Cases {
-  shapes: Array<{ kind: ShapeKind; width: Num; height: Num; cornerRadius: Num }>;
+  shapes: Array<{ kind: ShapeKind; width: Num; height: Num; cornerRadius: Num; tail?: { tip: Pair; width: Num } }>;
   strokes: Pair[][];
   lines: Array<{ samples: Pair[]; closed: boolean; lineWidth: Num; startHead: ArrowHead; endHead: ArrowHead }>;
   flatten: Array<{ points: Pair[]; kind: LineKind; closed: boolean }>;
@@ -148,8 +148,9 @@ function compareRect(actual: Rect, expected: Quad | null, what: string): void {
 describe('geometry matches the Swift package', () => {
   it('builds the same shape paths', () => {
     cases.shapes.forEach((shape, index) => {
-      const what = `${shape.kind} ${shape.width}×${shape.height} r${shape.cornerRadius}`;
-      const path = shapePath(shape.kind, { width: shape.width, height: shape.height }, shape.cornerRadius);
+      const tail = shape.tail ? { tip: P(shape.tail.tip), width: shape.tail.width } : null;
+      const what = `${shape.kind} ${shape.width}×${shape.height} r${shape.cornerRadius} tail ${JSON.stringify(shape.tail)}`;
+      const path = shapePath(shape.kind, { width: shape.width, height: shape.height }, shape.cornerRadius, tail);
       const expected = swift.shapes[index];
       if (!expected) throw new Error('missing');
       comparePath(path, expected.elements, what);
